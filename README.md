@@ -29,9 +29,9 @@ A versatile button component with multiple variants, sizes, and states.
 **Example:**
 
 ```tsx
-import { Button } from "component-library";
+import { Button } from 'component-library';
 
-<Button variant="primary" size="lg" onClick={() => console.log("Clicked!")}>
+<Button variant="primary" size="lg" onClick={() => console.log('Clicked!')}>
   Click me!
 </Button>;
 ```
