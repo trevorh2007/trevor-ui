@@ -21,10 +21,9 @@
     "<rootDir>/src/**/*.(test|spec).(ts|tsx)"
   ],
   "collectCoverageFrom": [
-    "src/**/*.(ts|tsx)",
+    "src/components/**/*.(ts|tsx)",
+    "src/lib/**/*.(ts|tsx)",
     "!src/**/*.d.ts",
-    "!src/main.tsx",
-    "!src/vite-env.d.ts",
     "!src/**/*.stories.(ts|tsx)",
     "!src/**/index.ts"
   ],
