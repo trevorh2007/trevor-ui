@@ -18,13 +18,13 @@ describe('Button', () => {
   });
 
   it('applies variant classes correctly', () => {
-    render(<Button variant="danger">Danger Button</Button>);
+    render(<Button variant='danger'>Danger Button</Button>);
     const button = screen.getByRole('button');
     expect(button).toHaveClass('bg-red-600');
   });
 
   it('applies size classes correctly', () => {
-    render(<Button size="lg">Large Button</Button>);
+    render(<Button size='lg'>Large Button</Button>);
     const button = screen.getByRole('button');
     expect(button).toHaveClass('px-6', 'py-3', 'text-lg');
   });
@@ -37,7 +37,7 @@ describe('Button', () => {
   });
 
   it('applies custom className', () => {
-    render(<Button className="custom-class">Custom Button</Button>);
+    render(<Button className='custom-class'>Custom Button</Button>);
     const button = screen.getByRole('button');
     expect(button).toHaveClass('custom-class');
   });

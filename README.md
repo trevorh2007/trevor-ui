@@ -1,6 +1,8 @@
 # React Component Library
 
-A modern, reusable React component library built with Vite, TypeScript, Tailwind CSS, and comprehensive testing with Jest and React Testing Library. Perfect for building consistent UIs across multiple projects.
+A modern, reusable React component library built with Vite, TypeScript, Tailwind CSS, and
+comprehensive testing with Jest and React Testing Library. Perfect for building consistent UIs
+across multiple projects.
 
 ## 🚀 Features
 
@@ -31,7 +33,7 @@ A versatile button component with multiple variants, sizes, and states.
 ```tsx
 import { Button } from 'component-library';
 
-<Button variant="primary" size="lg" onClick={() => console.log('Clicked!')}>
+<Button variant='primary' size='lg' onClick={() => console.log('Clicked!')}>
   Click me!
 </Button>;
 ```
@@ -78,7 +80,8 @@ src/
 
 ## 🧪 Testing
 
-This project uses Jest and React Testing Library for testing. All components include comprehensive tests covering:
+This project uses Jest and React Testing Library for testing. All components include comprehensive
+tests covering:
 
 - Rendering behavior
 - User interactions
