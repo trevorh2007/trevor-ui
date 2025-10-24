@@ -70,38 +70,55 @@ jobs:
               if (testSuiteIndex !== -1) {
                 const summaryLines = [];
                 for (let i = testSuiteIndex; i < lines.length && i < testSuiteIndex + 10; i++) {
-                  const line = lines[i].trim();
-                  if (line.startsWith('Test Suites:') || 
-                      line.startsWith('Tests:') || 
-                      line.startsWith('Snapshots:') ||
-                      line.startsWith('Time:')) {
-                    summaryLines.push(lines[i]);
+                  const line = lines[i];
+                  if (line.trim().startsWith('Test Suites:') || 
+                      line.trim().startsWith('Tests:') || 
+                      line.trim().startsWith('Snapshots:') ||
+                      line.trim().startsWith('Time:')) {
+                    summaryLines.push(line);
                   }
                 }
                 testSummary = summaryLines.join('\n');
                 console.log('Found test summary:', testSummary);
+              } else {
+                console.log('Could not find Test Suites line');
+                // Debug: show all lines that might contain test info
+                lines.forEach((line, index) => {
+                  if (line.includes('Test') || line.includes('passed') || line.includes('total')) {
+                    console.log(`Line ${index}: ${line}`);
+                  }
+                });
               }
               
-              // Find coverage table
+              // Find coverage table - look for the table header
               const coverageTableStart = lines.findIndex(line => 
-                line.includes('All files') && (line.includes('%') || line.includes('|'))
+                line.includes('File') && line.includes('% Stmts') && line.includes('|')
               );
               
               if (coverageTableStart !== -1) {
                 const coverageLines = [];
-                // Get the header and data rows
+                // Get table starting from header
                 for (let i = coverageTableStart; i < lines.length && i < coverageTableStart + 20; i++) {
                   const line = lines[i];
-                  if (line.includes('|') || line.includes('All files') || line.includes('.tsx')) {
+                  // Include header, separator, and data rows
+                  if (line.includes('|') || line.includes('---------')) {
                     coverageLines.push(line);
                   }
-                  // Stop at empty line or next section
-                  if (line.trim() === '' && coverageLines.length > 0) {
+                  // Stop when we hit an empty line after getting some content
+                  if (line.trim() === '' && coverageLines.length > 3) {
                     break;
                   }
                 }
                 coverageContent = coverageLines.join('\n');
                 console.log('Found coverage table:', coverageContent);
+              } else {
+                console.log('Could not find coverage table header');
+                // Debug: show lines that might contain coverage info
+                lines.forEach((line, index) => {
+                  if (line.includes('%') || line.includes('File') || line.includes('All files')) {
+                    console.log(`Line ${index}: ${line}`);
+                  }
+                });
               }
               
             } catch (error) {
