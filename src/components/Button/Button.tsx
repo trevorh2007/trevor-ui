@@ -50,7 +50,7 @@ export const Button: React.FC<ButtonProps> = ({
       className={classes}
       disabled={disabled}
       onClick={onClick}
-      type="button"
+      type='button'
     >
       {children}
     </button>
