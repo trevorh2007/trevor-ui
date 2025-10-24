@@ -84,10 +84,7 @@ jobs:
       - name: 🏗️ Build application
         run: npm run build
 
-      - name: 📦 Build library
-        run: npm run build:lib
-
-      - name: 🔧 Setup Pages
+      - name: Setup Pages
         if: github.ref == 'refs/heads/main'
         uses: actions/configure-pages@v4
 
