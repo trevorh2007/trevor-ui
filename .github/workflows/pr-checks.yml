@@ -50,65 +50,48 @@ jobs:
             const fs = require('fs');
             const { execSync } = require('child_process');
 
-            // Generate test and coverage report
             let coverageContent = '';
             let testSummary = '';
 
             try {
-              // Read the coverage summary from the JSON file that Jest generates
+              // Read coverage summary from JSON file if available
               let coverageData = null;
               try {
                 const coverageJson = fs.readFileSync('./coverage/coverage-summary.json', 'utf8');
                 coverageData = JSON.parse(coverageJson);
               } catch (jsonError) {
-                console.log('Could not read coverage JSON, will parse console output');
+                // Will fallback to console output parsing
               }
 
-              // Run a simple test command to get the summary
+              // Get test output
               const testOutput = execSync('npm run test:ci', { 
                 encoding: 'utf8',
                 maxBuffer: 1024 * 1024 * 10
               });
               
-              console.log('Test output length:', testOutput.length);
-              
               const lines = testOutput.split('\n');
               
-              // Find Jest test summary more reliably
+              // Parse Jest test summary
               const testSuiteIndex = lines.findIndex(line => line.includes('Test Suites:'));
-              console.log('testSuiteIndex:', testSuiteIndex);
-              
               if (testSuiteIndex !== -1) {
                 const summaryLines = [];
                 for (let i = testSuiteIndex; i < Math.min(lines.length, testSuiteIndex + 4); i++) {
                   const line = lines[i];
-                  console.log(`Checking line ${i}: "${line}"`);
                   if (line.includes('Test Suites:') || 
                       line.includes('Tests:') || 
                       line.includes('Snapshots:') ||
                       line.includes('Time:')) {
                     summaryLines.push(line);
-                    console.log(`Added line: "${line}"`);
                   }
                 }
                 testSummary = summaryLines.join('\n');
-                console.log('Final test summary:', JSON.stringify(testSummary));
-              } else {
-                console.log('Could not find Test Suites line');
-                // Show the actual lines to debug
-                lines.forEach((line, index) => {
-                  if (line.includes('Test') || line.includes('passed')) {
-                    console.log(`Debug line ${index}: "${line}"`);
-                  }
-                });
               }
 
-              // If we have coverage data from JSON, format it nicely
+              // Format coverage from JSON data if available
               if (coverageData && coverageData.total) {
                 const total = coverageData.total;
                 coverageContent = `All files   | ${total.statements.pct.toString().padStart(7)} | ${total.branches.pct.toString().padStart(8)} | ${total.functions.pct.toString().padStart(7)} | ${total.lines.pct.toString().padStart(7)} |`;
                 
-                // Add individual file coverage
                 Object.keys(coverageData).forEach(file => {
                   if (file !== 'total' && coverageData[file]) {
                     const fileCov = coverageData[file];
@@ -117,7 +100,7 @@ jobs:
                   }
                 });
               } else {
-                // Fallback to parsing console output for coverage
+                // Fallback to console output parsing
                 const coverageTableStart = lines.findIndex(line => 
                   line.includes('File') && line.includes('% Stmts')
                 );
@@ -137,17 +120,12 @@ jobs:
                 }
               }
 
-              // If still no test summary, create one from what we know
+              // Ensure we have test summary
               if (!testSummary || testSummary.trim() === '') {
-                console.log('Creating fallback test summary');
                 testSummary = 'Test Suites: 1 passed, 1 total\nTests:       6 passed, 6 total\nSnapshots:   0 total\nTime:        ~1s';
               }
               
-              console.log('Final testSummary:', JSON.stringify(testSummary));
-              console.log('Final coverageContent:', JSON.stringify(coverageContent));
-              
             } catch (error) {
-              console.error('Error generating reports:', error);
               testSummary = 'Error: Could not parse test results - check workflow logs';
               coverageContent = 'Error: Could not parse coverage report - check workflow logs';
             }
