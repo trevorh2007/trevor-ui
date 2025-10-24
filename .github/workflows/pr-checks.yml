@@ -52,56 +52,65 @@ jobs:
             // Generate test and coverage report
             let coverageContent = '';
             let testSummary = '';
+
             try {
-              // Run tests once and capture all output
-              const testOutput = execSync('npm run test:ci -- --verbose', { encoding: 'utf8' });
-              console.log('Test output:', testOutput);
+              // Run tests with coverage and verbose output
+              const testOutput = execSync('npm run test:ci -- --verbose --coverage', { 
+                encoding: 'utf8',
+                maxBuffer: 1024 * 1024 * 10 // 10MB buffer
+              });
               
-              // Extract test summary (look for the summary at the end)
+              console.log('Full test output length:', testOutput.length);
+              console.log('Test output preview:', testOutput.substring(0, 500));
+              
               const lines = testOutput.split('\n');
+              
+              // Find Jest test summary (appears at the end)
               const testSuiteIndex = lines.findIndex(line => line.trim().startsWith('Test Suites:'));
               if (testSuiteIndex !== -1) {
-                // Get the test summary lines
-                const summaryLines = lines.slice(testSuiteIndex, testSuiteIndex + 5).filter(line => 
-                  line.trim().startsWith('Test Suites:') || 
-                  line.trim().startsWith('Tests:') || 
-                  line.trim().startsWith('Snapshots:') ||
-                  line.trim().startsWith('Time:')
-                );
-                testSummary = summaryLines.join('\n').trim();
+                const summaryLines = [];
+                for (let i = testSuiteIndex; i < lines.length && i < testSuiteIndex + 10; i++) {
+                  const line = lines[i].trim();
+                  if (line.startsWith('Test Suites:') || 
+                      line.startsWith('Tests:') || 
+                      line.startsWith('Snapshots:') ||
+                      line.startsWith('Time:')) {
+                    summaryLines.push(lines[i]);
+                  }
+                }
+                testSummary = summaryLines.join('\n');
+                console.log('Found test summary:', testSummary);
               }
               
-              // If no test summary found, create a simple one
-              if (!testSummary) {
-                testSummary = 'Tests: Passed\nCoverage: Generated successfully';
-              }
-              
-              // Extract coverage table
-              const coverageStartIndex = lines.findIndex(line => 
-                line.includes('All files') || line.includes('Coverage summary')
+              // Find coverage table
+              const coverageTableStart = lines.findIndex(line => 
+                line.includes('All files') && (line.includes('%') || line.includes('|'))
               );
-              if (coverageStartIndex !== -1) {
-                // Find the coverage table
-                let coverageEndIndex = lines.findIndex((line, index) => 
-                  index > coverageStartIndex && (line.includes('Test Suites:') || line.trim() === '' || line.includes('======'))
-                );
-                if (coverageEndIndex === -1) coverageEndIndex = coverageStartIndex + 15;
-                
-                coverageContent = lines.slice(coverageStartIndex, coverageEndIndex)
-                  .filter(line => line.trim() !== '')
-                  .join('\n')
-                  .trim();
-              }
               
-              // If no coverage found, create a fallback
-              if (!coverageContent) {
-                coverageContent = 'Coverage: 100% - All files covered\nButton.tsx: 100% coverage achieved';
+              if (coverageTableStart !== -1) {
+                const coverageLines = [];
+                // Get the header and data rows
+                for (let i = coverageTableStart; i < lines.length && i < coverageTableStart + 20; i++) {
+                  const line = lines[i];
+                  if (line.includes('|') || line.includes('All files') || line.includes('.tsx')) {
+                    coverageLines.push(line);
+                  }
+                  // Stop at empty line or next section
+                  if (line.trim() === '' && coverageLines.length > 0) {
+                    break;
+                  }
+                }
+                coverageContent = coverageLines.join('\n');
+                console.log('Found coverage table:', coverageContent);
               }
               
             } catch (error) {
-              console.error('Error generating reports:', error);
-              testSummary = `Tests: Completed successfully\nAll quality checks passed`;
-              coverageContent = 'Coverage report generated - see workflow logs for details';
+              console.error('Error running tests:', error);
+              console.error('Error details:', error.message);
+              
+              // If the script fails, we still want to show something meaningful
+              testSummary = 'Error: Could not parse test results - check workflow logs';
+              coverageContent = 'Error: Could not parse coverage report - check workflow logs';
             }
 
             // Determine overall status
