@@ -28,7 +28,7 @@ export default defineConfig(({ mode }) => {
 
   return {
     plugins: [react()],
-    base: '/component-library/',
+    base: '/trevor-ui/',
     css: {
       postcss: './config/postcss.config.js',
     },
