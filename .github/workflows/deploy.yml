@@ -1,9 +1,7 @@
-name: CI/CD Pipeline
+name: Deploy Demo to GitHub Pages
 
 on:
   push:
-    branches: [main]
-  pull_request:
     branches: [main]
 
 permissions:
@@ -53,14 +51,6 @@ jobs:
       - name: 🧪 Run tests with coverage
         run: npm run test:ci
 
-      - name: 📊 Upload coverage reports
-        uses: codecov/codecov-action@v4
-        if: always()
-        with:
-          file: ./coverage/lcov.info
-          flags: unittests
-          name: codecov-umbrella
-
   build:
     name: 🏗️ Build
     runs-on: ubuntu-latest
@@ -85,18 +75,15 @@ jobs:
         run: npm run build
 
       - name: Setup Pages
-        if: github.ref == 'refs/heads/main'
         uses: actions/configure-pages@v4
 
       - name: 📤 Upload build artifacts
-        if: github.ref == 'refs/heads/main'
         uses: actions/upload-pages-artifact@v3
         with:
           path: "./dist"
 
   deploy:
     name: 🚀 Deploy to GitHub Pages
-    if: github.ref == 'refs/heads/main'
     environment:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}
