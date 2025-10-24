@@ -1,0 +1,269 @@
+name: Manual Release & NPM Publish
+
+on:
+  workflow_dispatch:
+    inputs:
+      release_type:
+        description: "Release type"
+        required: true
+        default: "auto"
+        type: choice
+        options:
+          - auto
+          - patch
+          - minor
+          - major
+      pre_release:
+        description: "Mark as pre-release"
+        required: false
+        default: false
+        type: boolean
+
+permissions:
+  contents: write
+  packages: write
+
+env:
+  NODE_VERSION: "20"
+
+jobs:
+  release:
+    name: 🚀 Create Release
+    runs-on: ubuntu-latest
+    outputs:
+      released: ${{ steps.create-release.outputs.released }}
+      version: ${{ steps.create-release.outputs.version }}
+      tag: ${{ steps.create-release.outputs.tag }}
+
+    steps:
+      - name: 📥 Checkout code
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: 🟢 Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          cache: "npm"
+
+      - name: 📦 Install dependencies
+        run: npm ci --prefer-offline --no-audit
+
+      - name: 🔍 Quality checks
+        run: |
+          npm run type-check
+          npm run lint
+          npm run test:ci
+
+      - name: 🏗️ Build library
+        run: npm run build:lib
+
+      - name: 🏷️ Determine version and create release
+        id: create-release
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const fs = require('fs');
+            const { execSync } = require('child_process');
+
+            const releaseType = '${{ github.event.inputs.release_type }}';
+            const preRelease = '${{ github.event.inputs.pre_release }}' === 'true';
+
+            console.log(`Release type: ${releaseType}`);
+            console.log(`Pre-release: ${preRelease}`);
+
+            // Read current version
+            const packageJson = JSON.parse(fs.readFileSync('package.json', 'utf8'));
+            const currentVersion = packageJson.version;
+            console.log(`Current version: ${currentVersion}`);
+
+            let bumpType = releaseType;
+            let commits = [];
+
+            // If auto mode, analyze commits since last release
+            if (releaseType === 'auto') {
+              try {
+                // Try to get commits since last tag
+                let commitRange;
+                try {
+                  const lastTag = execSync('git describe --tags --abbrev=0', { encoding: 'utf8' }).trim();
+                  commitRange = `${lastTag}..HEAD`;
+                } catch {
+                  // No previous tags, get recent commits
+                  commitRange = 'HEAD~10..HEAD';
+                }
+                
+                const commitOutput = execSync(`git log ${commitRange} --pretty=format:"%s"`, { encoding: 'utf8' });
+                commits = commitOutput.split('\n').filter(msg => msg.trim());
+                
+                console.log('Commits to analyze:', commits);
+                
+                // Analyze commit messages for semantic versioning
+                bumpType = 'patch'; // default
+                let hasBreaking = false;
+                let hasFeature = false;
+                let hasFix = false;
+                
+                for (const commit of commits) {
+                  const msg = commit.toLowerCase();
+                  
+                  // Check for breaking changes
+                  if (msg.includes('breaking') || msg.includes('!:') || msg.startsWith('feat!') || msg.startsWith('fix!')) {
+                    hasBreaking = true;
+                  }
+                  // Check for features
+                  else if (msg.startsWith('feat') || msg.startsWith('feature')) {
+                    hasFeature = true;
+                  }
+                  // Check for fixes
+                  else if (msg.startsWith('fix') || msg.startsWith('bugfix')) {
+                    hasFix = true;
+                  }
+                }
+                
+                // Determine bump type
+                if (hasBreaking) {
+                  bumpType = 'major';
+                } else if (hasFeature) {
+                  bumpType = 'minor';
+                } else if (hasFix) {
+                  bumpType = 'patch';
+                }
+                
+              } catch (error) {
+                console.log('Error getting commits:', error.message);
+                commits = ['Manual release triggered'];
+                bumpType = 'patch';
+              }
+            } else {
+              // Manual release type specified
+              commits = [`Manual ${bumpType} release`];
+            }
+
+            console.log(`Determined bump type: ${bumpType}`);
+
+            // Parse version
+            const versionRegex = /^(\d+)\.(\d+)\.(\d+)(?:-(.+))?$/;
+            const match = currentVersion.match(versionRegex);
+
+            if (!match) {
+              throw new Error(`Invalid version format: ${currentVersion}`);
+            }
+
+            let [, major, minor, patch, prerelease] = match;
+            major = parseInt(major);
+            minor = parseInt(minor);
+            patch = parseInt(patch);
+
+            // Calculate new version based on bump type
+            let newVersion;
+            if (bumpType === 'major') {
+              newVersion = `${major + 1}.0.0`;
+            } else if (bumpType === 'minor') {
+              newVersion = `${major}.${minor + 1}.0`;
+            } else {
+              newVersion = `${major}.${minor}.${patch + 1}`;
+            }
+
+            // Add pre-release suffix if requested
+            if (preRelease) {
+              newVersion += '-alpha.1';
+            }
+
+            console.log(`New version: ${newVersion}`);
+
+            // Check if this version already exists
+            try {
+              await github.rest.repos.getReleaseByTag({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                tag: `v${newVersion}`
+              });
+              
+              console.log(`Version ${newVersion} already exists, skipping release`);
+              core.setOutput('released', 'false');
+              return;
+            } catch (error) {
+              if (error.status !== 404) {
+                throw error;
+              }
+            }
+
+            // Update package.json with new version
+            packageJson.version = newVersion;
+            fs.writeFileSync('package.json', JSON.stringify(packageJson, null, 2) + '\n');
+
+            // Commit version bump
+            execSync('git config user.name "github-actions[bot]"');
+            execSync('git config user.email "github-actions[bot]@users.noreply.github.com"');
+            execSync('git add package.json');
+            execSync(`git commit -m "chore: bump version to ${newVersion}"`);
+            execSync('git push');
+
+            // Create release
+            const changelog = commits.map(commit => `- ${commit}`).join('\n');
+
+            // Use manual pre-release setting if provided, otherwise auto-detect
+            const isPrerelease = preRelease || newVersion.includes('-');
+
+            const release = await github.rest.repos.createRelease({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              tag_name: `v${newVersion}`,
+              name: `🚀 Release v${newVersion}`,
+              body: `## 📋 What's Changed\n\n${changelog}\n\n**Bump Type:** ${bumpType}${isPrerelease ? '\n\n⚠️ **Pre-release version**' : ''}`,
+              draft: false,
+              prerelease: isPrerelease,
+              generate_release_notes: true
+            });
+
+            console.log(`✅ Created release: ${release.data.html_url}`);
+
+            core.setOutput('released', 'true');
+            core.setOutput('version', newVersion);
+            core.setOutput('tag', `v${newVersion}`);
+
+  publish-npm:
+    name: 📦 Publish to NPM
+    runs-on: ubuntu-latest
+    needs: release
+    if: needs.release.outputs.released == 'true'
+
+    steps:
+      - name: 📥 Checkout code
+        uses: actions/checkout@v4
+        with:
+          ref: main # Get the updated version
+
+      - name: 🟢 Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          cache: "npm"
+          registry-url: "https://registry.npmjs.org"
+
+      - name: 📦 Install dependencies
+        run: npm ci --prefer-offline --no-audit
+
+      - name: 🏗️ Build library
+        run: npm run build:lib
+
+      - name: 🔍 Verify package contents
+        run: |
+          echo "📋 Package contents:"
+          npm pack --dry-run
+          echo ""
+          echo "📁 Dist directory:"
+          ls -la dist/ || echo "No dist directory found"
+
+      - name: 📤 Publish to NPM
+        run: npm publish --access public
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+
+      - name: ✅ Publication success
+        run: |
+          echo "🎉 Successfully published trevor-ui@${{ needs.release.outputs.version }} to NPM!"
+          echo "📦 View at: https://www.npmjs.com/package/trevor-ui"

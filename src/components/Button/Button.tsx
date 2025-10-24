@@ -33,7 +33,9 @@ export const Button: React.FC<ButtonProps> = ({
     lg: 'px-6 py-3 text-lg',
   };
 
-  const disabledClasses = disabled ? 'opacity-50 cursor-not-allowed' : '';
+  const disabledClasses = disabled
+    ? 'opacity-50 cursor-not-allowed hover:cursor-not-allowed'
+    : '';
 
   const classes = `
     ${baseClasses}
