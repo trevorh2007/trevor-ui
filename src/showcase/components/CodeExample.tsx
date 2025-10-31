@@ -53,10 +53,10 @@ export const CodeExample = ({
   const displayCode = highlightCode(currentCode);
 
   return (
-    <div className='mt-4 border border-gray-200 rounded-lg overflow-hidden'>
+    <div className='mt-4 border border-gray-200 dark:border-gray-700 rounded-lg overflow-hidden transition-colors duration-150'>
       <button
         onClick={() => setIsExpanded(!isExpanded)}
-        className='w-full px-4 py-2 bg-gray-50 hover:bg-gray-100 text-left text-sm font-medium text-gray-700 flex items-center justify-between transition-colors'
+        className='w-full px-4 py-2 bg-gray-50 dark:bg-gray-800 hover:bg-gray-100 dark:hover:bg-gray-700 text-left text-sm font-medium text-gray-700 dark:text-gray-300 flex items-center justify-between transition-all duration-150'
       >
         <span>
           {isExpanded
@@ -65,16 +65,16 @@ export const CodeExample = ({
         </span>
         <div className='flex items-center gap-2'>
           {(jsCode || language === 'js') && (
-            <div className='flex bg-white border border-gray-300 rounded text-xs overflow-hidden'>
+            <div className='flex bg-white dark:bg-gray-700 border border-gray-300 dark:border-gray-600 rounded text-xs overflow-hidden'>
               <button
                 onClick={e => {
                   e.stopPropagation();
                   setLanguage('ts');
                 }}
-                className={`px-2 py-1 transition-colors ${
+                className={`px-2 py-1 transition-all duration-150 ${
                   language === 'ts'
                     ? 'bg-blue-500 text-white'
-                    : 'text-gray-600 hover:bg-gray-100'
+                    : 'text-gray-600 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-600'
                 }`}
               >
                 TS
@@ -84,10 +84,10 @@ export const CodeExample = ({
                   e.stopPropagation();
                   setLanguage('js');
                 }}
-                className={`px-2 py-1 transition-colors ${
+                className={`px-2 py-1 transition-all duration-150 ${
                   language === 'js'
                     ? 'bg-blue-500 text-white'
-                    : 'text-gray-600 hover:bg-gray-100'
+                    : 'text-gray-600 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-600'
                 }`}
               >
                 JS
@@ -95,7 +95,7 @@ export const CodeExample = ({
             </div>
           )}
           <svg
-            className={`w-4 h-4 transition-transform ${isExpanded ? 'rotate-180' : ''}`}
+            className={`w-4 h-4 transition-transform duration-150 ${isExpanded ? 'rotate-180' : ''}`}
             fill='none'
             stroke='currentColor'
             viewBox='0 0 24 24'
@@ -110,12 +110,14 @@ export const CodeExample = ({
         </div>
       </button>
       {isExpanded && (
-        <div className='bg-gray-900 text-gray-100 relative'>
-          <div className='flex items-center justify-between px-4 py-2 bg-gray-800 border-b border-gray-700'>
-            <div className='flex items-center gap-2 text-xs text-gray-400'>
+        <div className='bg-gray-900 dark:bg-gray-950 text-gray-100 relative'>
+          <div className='flex items-center justify-between px-4 py-2 bg-gray-800 dark:bg-gray-900 border-b border-gray-700 dark:border-gray-600'>
+            <div className='flex items-center gap-2 text-xs text-gray-400 dark:text-gray-500'>
               <span
-                className={`px-2 py-1 rounded ${
-                  language === 'ts' ? 'bg-blue-600 text-white' : 'bg-gray-700'
+                className={`px-2 py-1 rounded transition-colors duration-150 ${
+                  language === 'ts'
+                    ? 'bg-blue-600 text-white'
+                    : 'bg-gray-700 dark:bg-gray-800'
                 }`}
               >
                 {language.toUpperCase()}
@@ -123,7 +125,7 @@ export const CodeExample = ({
             </div>
             <button
               onClick={() => navigator.clipboard.writeText(currentCode)}
-              className='px-2 py-1 text-xs bg-gray-700 hover:bg-gray-600 rounded transition-colors'
+              className='px-2 py-1 text-xs bg-gray-700 dark:bg-gray-800 hover:bg-gray-600 dark:hover:bg-gray-700 rounded transition-all duration-150'
             >
               Copy
             </button>

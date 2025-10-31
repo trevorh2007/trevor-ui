@@ -24,13 +24,13 @@ export const LandingPage: React.FC<LandingPageProps> = ({ onGetStarted }) => {
     <div className='max-w-4xl mx-auto px-6 py-12 text-center'>
       {/* Hero Section */}
       <div className='mb-12'>
-        <h1 className='text-5xl font-bold text-gray-900 mb-4'>
+        <h1 className='text-5xl font-bold text-gray-900 dark:text-white mb-4'>
           {packageJson.name
             .split('-')
             .map(word => word.charAt(0).toUpperCase() + word.slice(1))
             .join(' ')}
         </h1>
-        <p className='text-xl text-gray-600 mb-8 max-w-2xl mx-auto'>
+        <p className='text-xl text-gray-600 dark:text-gray-300 mb-8 max-w-2xl mx-auto'>
           {packageJson.description}
         </p>
         <div className='flex gap-4 justify-center'>
@@ -49,10 +49,10 @@ export const LandingPage: React.FC<LandingPageProps> = ({ onGetStarted }) => {
 
       {/* Features Grid */}
       <div className='grid md:grid-cols-3 gap-8 mb-12'>
-        <div className='p-6 bg-white rounded-lg border border-gray-200 shadow-sm'>
-          <div className='w-12 h-12 bg-blue-100 rounded-lg flex items-center justify-center mb-4 mx-auto'>
+        <div className='p-6 bg-white dark:bg-gray-800 rounded-lg border border-gray-200 dark:border-gray-700 shadow-sm transition-colors duration-200'>
+          <div className='w-12 h-12 bg-blue-100 dark:bg-blue-900 rounded-lg flex items-center justify-center mb-4 mx-auto'>
             <svg
-              className='w-6 h-6 text-blue-600'
+              className='w-6 h-6 text-blue-600 dark:text-blue-400'
               fill='none'
               stroke='currentColor'
               viewBox='0 0 24 24'
@@ -65,19 +65,19 @@ export const LandingPage: React.FC<LandingPageProps> = ({ onGetStarted }) => {
               />
             </svg>
           </div>
-          <h3 className='text-lg font-semibold text-gray-900 mb-2'>
+          <h3 className='text-lg font-semibold text-gray-900 dark:text-white mb-2'>
             Built for Performance
           </h3>
-          <p className='text-gray-600 text-sm'>
+          <p className='text-gray-600 dark:text-gray-300 text-sm'>
             Optimized components with minimal bundle size and excellent runtime
             performance.
           </p>
         </div>
 
-        <div className='p-6 bg-white rounded-lg border border-gray-200 shadow-sm'>
-          <div className='w-12 h-12 bg-green-100 rounded-lg flex items-center justify-center mb-4 mx-auto'>
+        <div className='p-6 bg-white dark:bg-gray-800 rounded-lg border border-gray-200 dark:border-gray-700 shadow-sm transition-colors duration-200'>
+          <div className='w-12 h-12 bg-green-100 dark:bg-green-900 rounded-lg flex items-center justify-center mb-4 mx-auto'>
             <svg
-              className='w-6 h-6 text-green-600'
+              className='w-6 h-6 text-green-600 dark:text-green-400'
               fill='none'
               stroke='currentColor'
               viewBox='0 0 24 24'
@@ -90,19 +90,19 @@ export const LandingPage: React.FC<LandingPageProps> = ({ onGetStarted }) => {
               />
             </svg>
           </div>
-          <h3 className='text-lg font-semibold text-gray-900 mb-2'>
+          <h3 className='text-lg font-semibold text-gray-900 dark:text-white mb-2'>
             Type Safe
           </h3>
-          <p className='text-gray-600 text-sm'>
+          <p className='text-gray-600 dark:text-gray-300 text-sm'>
             Full TypeScript support with comprehensive type definitions and
             IntelliSense.
           </p>
         </div>
 
-        <div className='p-6 bg-white rounded-lg border border-gray-200 shadow-sm'>
-          <div className='w-12 h-12 bg-purple-100 rounded-lg flex items-center justify-center mb-4 mx-auto'>
+        <div className='p-6 bg-white dark:bg-gray-800 rounded-lg border border-gray-200 dark:border-gray-700 shadow-sm transition-colors duration-200'>
+          <div className='w-12 h-12 bg-purple-100 dark:bg-purple-900 rounded-lg flex items-center justify-center mb-4 mx-auto'>
             <svg
-              className='w-6 h-6 text-purple-600'
+              className='w-6 h-6 text-purple-600 dark:text-purple-400'
               fill='none'
               stroke='currentColor'
               viewBox='0 0 24 24'
@@ -115,10 +115,10 @@ export const LandingPage: React.FC<LandingPageProps> = ({ onGetStarted }) => {
               />
             </svg>
           </div>
-          <h3 className='text-lg font-semibold text-gray-900 mb-2'>
+          <h3 className='text-lg font-semibold text-gray-900 dark:text-white mb-2'>
             Customizable
           </h3>
-          <p className='text-gray-600 text-sm'>
+          <p className='text-gray-600 dark:text-gray-300 text-sm'>
             Flexible components with multiple variants, sizes, and styling
             options.
           </p>
@@ -126,43 +126,55 @@ export const LandingPage: React.FC<LandingPageProps> = ({ onGetStarted }) => {
       </div>
 
       {/* Quick Stats */}
-      <div className='bg-linear-to-r from-blue-50 to-purple-50 rounded-lg p-8 mb-12'>
+      <div className='bg-linear-to-r from-blue-50 to-purple-50 dark:from-blue-900/20 dark:to-purple-900/20 rounded-lg p-8 mb-12 transition-colors duration-200'>
         <div className='grid grid-cols-2 md:grid-cols-4 gap-6'>
           <div className='text-center'>
-            <div className='text-2xl font-bold text-gray-900 mb-1'>
+            <div className='text-2xl font-bold text-gray-900 dark:text-white mb-1'>
               {showcaseComponents.length}
             </div>
-            <div className='text-sm text-gray-600'>Components</div>
+            <div className='text-sm text-gray-600 dark:text-gray-300'>
+              Components
+            </div>
           </div>
           <div className='text-center'>
-            <div className='text-2xl font-bold text-gray-900 mb-1'>100%</div>
-            <div className='text-sm text-gray-600'>TypeScript</div>
+            <div className='text-2xl font-bold text-gray-900 dark:text-white mb-1'>
+              100%
+            </div>
+            <div className='text-sm text-gray-600 dark:text-gray-300'>
+              TypeScript
+            </div>
           </div>
           <div className='text-center'>
-            <div className='text-2xl font-bold text-gray-900 mb-1'>
+            <div className='text-2xl font-bold text-gray-900 dark:text-white mb-1'>
               {coveragePercentage}%
             </div>
-            <div className='text-sm text-gray-600'>Test Coverage</div>
+            <div className='text-sm text-gray-600 dark:text-gray-300'>
+              Test Coverage
+            </div>
           </div>
           <div className='text-center'>
-            <div className='text-2xl font-bold text-gray-900 mb-1'>
+            <div className='text-2xl font-bold text-gray-900 dark:text-white mb-1'>
               {dependencyCount}
             </div>
-            <div className='text-sm text-gray-600'>Dependencies</div>
+            <div className='text-sm text-gray-600 dark:text-gray-300'>
+              Dependencies
+            </div>
           </div>
         </div>
       </div>
 
       {/* Getting Started */}
       <div className='text-left max-w-2xl mx-auto'>
-        <h2 className='text-2xl font-bold text-gray-900 mb-4'>Quick Start</h2>
-        <div className='bg-gray-900 rounded-lg p-4 mb-6'>
+        <h2 className='text-2xl font-bold text-gray-900 dark:text-white mb-4'>
+          Quick Start
+        </h2>
+        <div className='bg-gray-900 dark:bg-gray-800 rounded-lg p-4 mb-6'>
           <code className='text-green-400 text-sm'>
             npm install {packageJson.name}
           </code>
         </div>
-        <div className='bg-gray-50 rounded-lg p-4'>
-          <pre className='text-sm text-gray-800 overflow-x-auto'>
+        <div className='bg-gray-50 dark:bg-gray-800 rounded-lg p-4'>
+          <pre className='text-sm text-gray-800 dark:text-gray-200 overflow-x-auto'>
             {`import { Button } from '${packageJson.name}';
 
 function App() {

@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { Button } from '../../components/Button';
 import { Icon } from '../../components/Icon';
+import { SectionHeader } from '../../components/SectionHeader';
 import { CodeExample } from './CodeExample';
 
 export const ButtonDemo = () => {
@@ -9,7 +10,7 @@ export const ButtonDemo = () => {
   return (
     <div className='space-y-8'>
       <div>
-        <h3 className='text-lg font-medium mb-3'>Variants</h3>
+        <SectionHeader>Variants</SectionHeader>
         <div className='flex gap-4 flex-wrap'>
           <Button variant='primary'>Primary</Button>
           <Button variant='secondary'>Secondary</Button>
@@ -27,7 +28,7 @@ export const ButtonDemo = () => {
       </div>
 
       <div>
-        <h3 className='text-lg font-medium mb-3'>Sizes</h3>
+        <SectionHeader>Sizes</SectionHeader>
         <div className='flex gap-4 items-center flex-wrap'>
           <Button size='sm'>Small</Button>
           <Button size='md'>Medium</Button>
@@ -45,7 +46,7 @@ export const ButtonDemo = () => {
       </div>
 
       <div>
-        <h3 className='text-lg font-medium mb-3'>With Icons</h3>
+        <SectionHeader>With Icons</SectionHeader>
         <div className='flex gap-4 flex-wrap'>
           <Button icon={<Icon name='PlusIcon' />}>Add Item</Button>
           <Button icon={<Icon name='MinusIcon' />} variant='danger'>
@@ -75,7 +76,7 @@ export const ButtonDemo = () => {
       </div>
 
       <div>
-        <h3 className='text-lg font-medium mb-3'>Icon Sizes</h3>
+        <SectionHeader>Icon Sizes</SectionHeader>
         <div className='flex gap-4 items-center flex-wrap'>
           <Button icon={<Icon name='PlusIcon' />} size='sm'>
             Small Icon
@@ -99,7 +100,7 @@ export const ButtonDemo = () => {
       </div>
 
       <div>
-        <h3 className='text-lg font-medium mb-3'>Icon Positions</h3>
+        <SectionHeader>Icon Positions</SectionHeader>
         <div className='flex gap-4 items-center flex-wrap'>
           <Button
             icon={<Icon name='DocumentArrowDownIcon' />}
@@ -124,7 +125,7 @@ export const ButtonDemo = () => {
       </div>
 
       <div>
-        <h3 className='text-lg font-medium mb-3'>States</h3>
+        <SectionHeader>States</SectionHeader>
         <div className='flex gap-4 flex-wrap'>
           <Button>Normal</Button>
           <Button disabled>Disabled</Button>
@@ -144,7 +145,7 @@ export const ButtonDemo = () => {
       </div>
 
       <div>
-        <h3 className='text-lg font-medium mb-3'>Interactive Example</h3>
+        <SectionHeader>Interactive Example</SectionHeader>
         <div className='flex gap-4 items-center flex-wrap'>
           <Button
             icon={<Icon name='PlusIcon' />}
