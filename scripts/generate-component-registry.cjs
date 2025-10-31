@@ -12,7 +12,8 @@ const registryFile = path.join(componentsDir, 'registry.ts');
 // Read all component folder names
 const getComponentNames = () => {
   try {
-    return fs.readdirSync(componentsDir)
+    return fs
+      .readdirSync(componentsDir)
       .filter(item => {
         const fullPath = path.join(componentsDir, item);
         // Only include directories, exclude files like registry.ts
@@ -46,5 +47,7 @@ export type ComponentName = (typeof COMPONENT_NAMES)[number];
 fs.writeFileSync(registryFile, registryContent, 'utf8');
 
 console.log('✅ Component registry generated successfully!');
-console.log(`📁 Found ${componentNames.length} components: ${componentNames.join(', ')}`);
+console.log(
+  `📁 Found ${componentNames.length} components: ${componentNames.join(', ')}`
+);
 console.log(`📝 Registry written to: ${registryFile}`);
