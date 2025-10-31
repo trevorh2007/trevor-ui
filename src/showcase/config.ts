@@ -7,6 +7,12 @@ export const showcaseComponents: ComponentItem[] = [
     description:
       'Interactive button component with multiple variants and sizes',
   },
+  {
+    id: 'icon',
+    name: 'Icon',
+    description:
+      'Heroicons-based icon component with multiple sizes and variants',
+  },
   // Example future components - these will automatically update the count!
   // {
   //   id: 'input',

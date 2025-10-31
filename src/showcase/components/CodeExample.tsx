@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { COMPONENT_NAMES } from '../../components/registry';
 
 interface CodeExampleProps {
   code: string;
@@ -16,47 +17,35 @@ export const CodeExample = ({
 
   const currentCode = language === 'js' && jsCode ? jsCode : code;
 
-  // Very simple highlighting - just basic colors, no complex regex
+  // Safe syntax highlighting that won't break HTML structure
   const highlightCode = (code: string) => {
-    // Use a very simple approach - just highlight a few key things
     let result = code;
 
-    // Only highlight strings and keywords - keep it super simple
+    // Escape HTML entities first to prevent conflicts
     result = result
-      .replace(
-        /('primary'|"primary")/g,
-        '<span style="color: #4ade80">$1</span>'
-      )
-      .replace(
-        /('secondary'|"secondary")/g,
-        '<span style="color: #4ade80">$1</span>'
-      )
-      .replace(/('danger'|"danger")/g, '<span style="color: #4ade80">$1</span>')
-      .replace(/('sm'|"sm")/g, '<span style="color: #4ade80">$1</span>')
-      .replace(/('md'|"md")/g, '<span style="color: #4ade80">$1</span>')
-      .replace(/('lg'|"lg")/g, '<span style="color: #4ade80">$1</span>')
-      .replace(/('left'|"left")/g, '<span style="color: #4ade80">$1</span>')
-      .replace(/('right'|"right")/g, '<span style="color: #4ade80">$1</span>')
-      .replace(/('top'|"top")/g, '<span style="color: #4ade80">$1</span>')
-      .replace(/('bottom'|"bottom")/g, '<span style="color: #4ade80">$1</span>')
-      .replace(
-        /('success'|"success")/g,
-        '<span style="color: #4ade80">$1</span>'
-      )
-      .replace(/('error'|"error")/g, '<span style="color: #4ade80">$1</span>')
-      .replace(
-        /('warning'|"warning")/g,
-        '<span style="color: #4ade80">$1</span>'
-      )
-      .replace(/('info'|"info")/g, '<span style="color: #4ade80">$1</span>')
-      .replace(
-        /\b(const|useState|useEffect|React|import|export|function|return)\b/g,
-        '<span style="color: #a855f7">$1</span>'
-      )
-      .replace(
-        /\b(Button|Tooltip|Toast|Icon|PlusIcon|MinusIcon|SaveIcon|DownloadIcon)\b/g,
-        '<span style="color: #3b82f6">$1</span>'
-      );
+      .replace(/&/g, '&amp;')
+      .replace(/</g, '&lt;')
+      .replace(/>/g, '&gt;')
+      .replace(/"/g, '&quot;')
+      .replace(/'/g, '&#39;');
+
+    // Only highlight strings - keep it simple
+    result = result.replace(
+      /&quot;(.*?)&quot;/g,
+      '<span style="color: #4ade80">&quot;$1&quot;</span>'
+    );
+
+    // Highlight component names (Icon, Button, etc.)
+    result = result.replace(
+      new RegExp(`\\b(${COMPONENT_NAMES.join('|')})\\b`, 'gi'),
+      '<span class="text-blue-400 font-medium">$1</span>'
+    );
+
+    // Highlight HTML tags
+    result = result.replace(
+      /&lt;(\/?(?:button|div|span|p|h1|h2|h3|input|form|img|a|ul|li|nav|header|footer|section|article))\b/g,
+      '<span style="color: #f472b6">&lt;$1</span>'
+    );
 
     return result;
   };

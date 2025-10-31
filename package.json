@@ -43,9 +43,10 @@
     "npm": ">=9.0.0"
   },
   "scripts": {
-    "dev": "vite --config config/vite.config.ts",
-    "build": "tsc -b && vite build --config config/vite.config.ts",
-    "build:lib": "vite build --mode library --config config/vite.config.ts",
+    "generate:registry": "node scripts/generate-component-registry.cjs",
+    "dev": "npm run generate:registry && vite --config config/vite.config.ts",
+    "build": "npm run generate:registry && tsc -b && vite build --config config/vite.config.ts",
+    "build:lib": "npm run generate:registry && vite build --mode library --config config/vite.config.ts",
     "test": "jest --config config/jest.config.json",
     "test:watch": "jest --watch --config config/jest.config.json",
     "test:coverage": "jest --coverage --config config/jest.config.json && node scripts/copy-coverage.js",
@@ -60,7 +61,7 @@
     "preview": "vite preview --config config/vite.config.ts",
     "clean": "rimraf dist coverage",
     "prepare": "husky",
-    "prepublishOnly": "npm run clean && npm run type-check && npm run test:ci && npm run build:lib"
+    "prepublishOnly": "npm run generate:registry && npm run clean && npm run type-check && npm run test:ci && npm run build:lib"
   },
   "lint-staged": {
     "*.{ts,tsx}": [
@@ -76,6 +77,7 @@
     "react-dom": ">=18.0.0"
   },
   "dependencies": {
+    "@heroicons/react": "^2.2.0",
     "react": ">=18.0.0",
     "react-dom": ">=18.0.0"
   },

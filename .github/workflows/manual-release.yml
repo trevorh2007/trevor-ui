@@ -51,7 +51,10 @@ jobs:
       - name: 📦 Install dependencies
         run: npm ci --prefer-offline --no-audit
 
-      - name: 🔍 Quality checks
+      - name: � Generate component registry
+        run: npm run generate:registry
+
+      - name: �🔍 Quality checks
         run: |
           npm run type-check
           npm run lint
@@ -249,6 +252,9 @@ jobs:
 
       - name: 📦 Install dependencies
         run: npm ci --prefer-offline --no-audit
+
+      - name: 🔄 Generate component registry
+        run: npm run generate:registry
 
       - name: 🏗️ Build library
         run: npm run build:lib
