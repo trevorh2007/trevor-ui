@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { Button } from '../../components/Button';
+import { CodeExample } from './CodeExample';
 
 // Simple icon components for demo
 const PlusIcon = () => (
@@ -70,7 +71,7 @@ export const ButtonDemo = () => {
   const [count, setCount] = useState(0);
 
   return (
-    <div className='space-y-6'>
+    <div className='space-y-8'>
       <div>
         <h3 className='text-lg font-medium mb-3'>Variants</h3>
         <div className='flex gap-4 flex-wrap'>
@@ -78,6 +79,15 @@ export const ButtonDemo = () => {
           <Button variant='secondary'>Secondary</Button>
           <Button variant='danger'>Danger</Button>
         </div>
+        <CodeExample
+          title='Expand variants code'
+          code={`<Button variant='primary'>Primary</Button>
+<Button variant='secondary'>Secondary</Button>
+<Button variant='danger'>Danger</Button>`}
+          jsCode={`<Button variant="primary">Primary</Button>
+<Button variant="secondary">Secondary</Button>
+<Button variant="danger">Danger</Button>`}
+        />
       </div>
 
       <div>
@@ -87,6 +97,15 @@ export const ButtonDemo = () => {
           <Button size='md'>Medium</Button>
           <Button size='lg'>Large</Button>
         </div>
+        <CodeExample
+          title='Expand sizes code'
+          code={`<Button size='sm'>Small</Button>
+<Button size='md'>Medium</Button>
+<Button size='lg'>Large</Button>`}
+          jsCode={`<Button size="sm">Small</Button>
+<Button size="md">Medium</Button>
+<Button size="lg">Large</Button>`}
+        />
       </div>
 
       <div>
@@ -103,6 +122,17 @@ export const ButtonDemo = () => {
             Save Changes
           </Button>
         </div>
+        <CodeExample
+          title='Expand icons code'
+          code={`<Button icon={<PlusIcon />}>Add Item</Button>
+<Button icon={<MinusIcon />} variant='danger'>Remove</Button>
+<Button icon={<DownloadIcon />} variant='secondary'>Download</Button>
+<Button icon={<SaveIcon />} iconPosition='right'>Save Changes</Button>`}
+          jsCode={`<Button icon={<PlusIcon />}>Add Item</Button>
+<Button icon={<MinusIcon />} variant="danger">Remove</Button>
+<Button icon={<DownloadIcon />} variant="secondary">Download</Button>
+<Button icon={<SaveIcon />} iconPosition="right">Save Changes</Button>`}
+        />
       </div>
 
       <div>
@@ -118,6 +148,15 @@ export const ButtonDemo = () => {
             Large Icon
           </Button>
         </div>
+        <CodeExample
+          title='Expand icon sizes code'
+          code={`<Button icon={<PlusIcon />} size='sm'>Small Icon</Button>
+<Button icon={<PlusIcon />} size='md'>Medium Icon</Button>
+<Button icon={<PlusIcon />} size='lg'>Large Icon</Button>`}
+          jsCode={`<Button icon={<PlusIcon />} size="sm">Small Icon</Button>
+<Button icon={<PlusIcon />} size="md">Medium Icon</Button>
+<Button icon={<PlusIcon />} size="lg">Large Icon</Button>`}
+        />
       </div>
 
       <div>
@@ -130,6 +169,13 @@ export const ButtonDemo = () => {
             Right Icon
           </Button>
         </div>
+        <CodeExample
+          title='Expand icon positions code'
+          code={`<Button icon={<SaveIcon />} iconPosition='left'>Left Icon</Button>
+<Button icon={<SaveIcon />} iconPosition='right'>Right Icon</Button>`}
+          jsCode={`<Button icon={<SaveIcon />} iconPosition="left">Left Icon</Button>
+<Button icon={<SaveIcon />} iconPosition="right">Right Icon</Button>`}
+        />
       </div>
 
       <div>
@@ -141,6 +187,15 @@ export const ButtonDemo = () => {
             Disabled with Icon
           </Button>
         </div>
+        <CodeExample
+          title='Expand states code'
+          code={`<Button>Normal</Button>
+<Button disabled>Disabled</Button>
+<Button icon={<SaveIcon />} disabled>Disabled with Icon</Button>`}
+          jsCode={`<Button>Normal</Button>
+<Button disabled>Disabled</Button>
+<Button icon={<SaveIcon />} disabled>Disabled with Icon</Button>`}
+        />
       </div>
 
       <div>
@@ -157,6 +212,25 @@ export const ButtonDemo = () => {
             Reset
           </Button>
         </div>
+        <CodeExample
+          title='Expand interactive code'
+          code={`const [count, setCount] = useState(0);
+
+<Button icon={<PlusIcon />} onClick={() => setCount(count + 1)}>
+  Count: {count}
+</Button>
+<Button icon={<MinusIcon />} variant='secondary' onClick={() => setCount(0)}>
+  Reset
+</Button>`}
+          jsCode={`const [count, setCount] = useState(0);
+
+<Button icon={<PlusIcon />} onClick={() => setCount(count + 1)}>
+  Count: {count}
+</Button>
+<Button icon={<MinusIcon />} variant="secondary" onClick={() => setCount(0)}>
+  Reset
+</Button>`}
+        />
       </div>
     </div>
   );
