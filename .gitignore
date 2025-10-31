@@ -15,6 +15,9 @@ coverage/
 *.tsbuildinfo
 .tmp/
 
+# Generated coverage data for showcase
+public/coverage-summary.json
+
 # Environment files
 .env
 .env.local

@@ -49,7 +49,7 @@ jobs:
         run: npm run lint
 
       - name: 🧪 Run tests with coverage
-        run: npm run test:ci
+        run: npm run test:coverage
 
   build:
     name: 🏗️ Build
@@ -70,6 +70,12 @@ jobs:
 
       - name: 📦 Install dependencies
         run: npm ci --prefer-offline --no-audit
+
+      - name: 🧪 Generate coverage data for showcase
+        run: npm run test:coverage
+
+      - name: 📊 Copy coverage data to public directory
+        run: npm run test:coverage:copy
 
       - name: 🏗️ Build application
         run: npm run build

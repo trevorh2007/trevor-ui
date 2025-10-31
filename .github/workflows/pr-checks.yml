@@ -38,7 +38,7 @@ jobs:
         run: npm run lint
 
       - name: 🧪 Run tests with coverage
-        run: npm run test:ci
+        run: npm run test:coverage
 
       - name: 🏗️ Test build
         run: npm run build
@@ -64,7 +64,7 @@ jobs:
               }
 
               // Get test output
-              const testOutput = execSync('npm run test:ci', { 
+              const testOutput = execSync('npm run test:coverage', { 
                 encoding: 'utf8',
                 maxBuffer: 1024 * 1024 * 10
               });

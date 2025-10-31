@@ -77,4 +77,18 @@ export default [
       '@typescript-eslint/no-unused-vars': 'off',
     },
   },
+
+  // Node.js scripts
+  {
+    files: ['scripts/**/*.{ts,js}'],
+    languageOptions: {
+      globals: {
+        ...globals.node,
+      },
+    },
+    rules: {
+      'no-console': 'off',
+      '@typescript-eslint/no-unused-vars': 'off',
+    },
+  },
 ];
