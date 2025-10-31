@@ -1,80 +1,94 @@
 import { Icon } from '../../components/Icon';
+import { SectionHeader } from '../../components/SectionHeader';
 import { CodeExample } from './CodeExample';
+
+// Default icon colors for dark mode compatibility
+const DEFAULT_ICON_COLORS = 'text-gray-700 dark:text-gray-300';
 
 export const IconDemo = () => {
   return (
     <div className='space-y-8'>
       <div>
-        <h3 className='text-lg font-medium mb-3'>Basic Icons</h3>
+        <SectionHeader>Basic Icons</SectionHeader>
         <div className='flex gap-4 items-center flex-wrap'>
-          <Icon name='PlusIcon' />
-          <Icon name='MinusIcon' />
-          <Icon name='HomeIcon' />
-          <Icon name='UserIcon' />
-          <Icon name='CogIcon' />
-          <Icon name='HeartIcon' />
+          <Icon name='PlusIcon' className={DEFAULT_ICON_COLORS} />
+          <Icon name='MinusIcon' className={DEFAULT_ICON_COLORS} />
+          <Icon name='HomeIcon' className={DEFAULT_ICON_COLORS} />
+          <Icon name='UserIcon' className={DEFAULT_ICON_COLORS} />
+          <Icon name='CogIcon' className={DEFAULT_ICON_COLORS} />
+          <Icon name='HeartIcon' className={DEFAULT_ICON_COLORS} />
         </div>
         <CodeExample
           title='Expand basic icons code'
-          code={`<Icon name="PlusIcon" />
-<Icon name="MinusIcon" />
-<Icon name="HomeIcon" />
-<Icon name="UserIcon" />
-<Icon name="CogIcon" />
-<Icon name="HeartIcon" />`}
-          jsCode={`<Icon name="PlusIcon" />
-<Icon name="MinusIcon" />
-<Icon name="HomeIcon" />
-<Icon name="UserIcon" />
-<Icon name="CogIcon" />
-<Icon name="HeartIcon" />`}
+          code={`<Icon name="PlusIcon" className="${DEFAULT_ICON_COLORS}" />
+<Icon name="MinusIcon" className="${DEFAULT_ICON_COLORS}" />
+<Icon name="HomeIcon" className="${DEFAULT_ICON_COLORS}" />
+<Icon name="UserIcon" className="${DEFAULT_ICON_COLORS}" />
+<Icon name="CogIcon" className="${DEFAULT_ICON_COLORS}" />
+<Icon name="HeartIcon" className="${DEFAULT_ICON_COLORS}" />`}
+          jsCode={`<Icon name="PlusIcon" className="${DEFAULT_ICON_COLORS}" />
+<Icon name="MinusIcon" className="${DEFAULT_ICON_COLORS}" />
+<Icon name="HomeIcon" className="${DEFAULT_ICON_COLORS}" />
+<Icon name="UserIcon" className="${DEFAULT_ICON_COLORS}" />
+<Icon name="CogIcon" className="${DEFAULT_ICON_COLORS}" />
+<Icon name="HeartIcon" className="${DEFAULT_ICON_COLORS}" />`}
         />
       </div>
 
       <div>
-        <h3 className='text-lg font-medium mb-3'>Icon Sizes</h3>
+        <SectionHeader>Icon Sizes</SectionHeader>
         <div className='flex gap-4 items-center flex-wrap'>
-          <Icon name='StarIcon' size='sm' />
-          <Icon name='StarIcon' size='md' />
-          <Icon name='StarIcon' size='lg' />
-          <Icon name='StarIcon' size='xl' />
+          {(['sm', 'md', 'lg', 'xl'] as const).map(size => (
+            <Icon
+              key={size}
+              name='StarIcon'
+              size={size}
+              className={DEFAULT_ICON_COLORS}
+            />
+          ))}
         </div>
         <CodeExample
           title='Expand sizes code'
-          code={`<Icon name="StarIcon" size="sm" />
-<Icon name="StarIcon" size="md" />
-<Icon name="StarIcon" size="lg" />
-<Icon name="StarIcon" size="xl" />`}
-          jsCode={`<Icon name="StarIcon" size="sm" />
-<Icon name="StarIcon" size="md" />
-<Icon name="StarIcon" size="lg" />
-<Icon name="StarIcon" size="xl" />`}
+          code={`<Icon name="StarIcon" size="sm" className="${DEFAULT_ICON_COLORS}" />
+<Icon name="StarIcon" size="md" className="${DEFAULT_ICON_COLORS}" />
+<Icon name="StarIcon" size="lg" className="${DEFAULT_ICON_COLORS}" />
+<Icon name="StarIcon" size="xl" className="${DEFAULT_ICON_COLORS}" />`}
+          jsCode={`<Icon name="StarIcon" size="sm" className="${DEFAULT_ICON_COLORS}" />
+<Icon name="StarIcon" size="md" className="${DEFAULT_ICON_COLORS}" />
+<Icon name="StarIcon" size="lg" className="${DEFAULT_ICON_COLORS}" />
+<Icon name="StarIcon" size="xl" className="${DEFAULT_ICON_COLORS}" />`}
         />
       </div>
 
       <div>
-        <h3 className='text-lg font-medium mb-3'>Icon Variants</h3>
+        <SectionHeader>Icon Variants</SectionHeader>
         <div className='flex gap-4 items-center flex-wrap'>
-          <Icon name='HeartIcon' variant='outline' />
-          <Icon name='HeartIcon' variant='solid' />
-          <Icon name='StarIcon' variant='outline' />
-          <Icon name='StarIcon' variant='solid' />
+          {(['HeartIcon', 'StarIcon'] as const).map(iconName =>
+            (['outline', 'solid'] as const).map(variant => (
+              <Icon
+                key={`${iconName}-${variant}`}
+                name={iconName}
+                variant={variant}
+                className={DEFAULT_ICON_COLORS}
+              />
+            ))
+          )}
         </div>
         <CodeExample
           title='Expand variants code'
-          code={`<Icon name="HeartIcon" variant="outline" />
-<Icon name="HeartIcon" variant="solid" />
-<Icon name="StarIcon" variant="outline" />
-<Icon name="StarIcon" variant="solid" />`}
-          jsCode={`<Icon name="HeartIcon" variant="outline" />
-<Icon name="HeartIcon" variant="solid" />
-<Icon name="StarIcon" variant="outline" />
-<Icon name="StarIcon" variant="solid" />`}
+          code={`<Icon name="HeartIcon" variant="outline" className="${DEFAULT_ICON_COLORS}" />
+<Icon name="HeartIcon" variant="solid" className="${DEFAULT_ICON_COLORS}" />
+<Icon name="StarIcon" variant="outline" className="${DEFAULT_ICON_COLORS}" />
+<Icon name="StarIcon" variant="solid" className="${DEFAULT_ICON_COLORS}" />`}
+          jsCode={`<Icon name="HeartIcon" variant="outline" className="${DEFAULT_ICON_COLORS}" />
+<Icon name="HeartIcon" variant="solid" className="${DEFAULT_ICON_COLORS}" />
+<Icon name="StarIcon" variant="outline" className="${DEFAULT_ICON_COLORS}" />
+<Icon name="StarIcon" variant="solid" className="${DEFAULT_ICON_COLORS}" />`}
         />
       </div>
 
       <div>
-        <h3 className='text-lg font-medium mb-3'>Colored Icons</h3>
+        <SectionHeader>Colored Icons</SectionHeader>
         <div className='flex gap-4 items-center flex-wrap'>
           <Icon name='CheckCircleIcon' className='text-green-500' />
           <Icon name='XCircleIcon' className='text-red-500' />
@@ -95,46 +109,46 @@ export const IconDemo = () => {
       </div>
 
       <div>
-        <h3 className='text-lg font-medium mb-3'>Interactive Icons</h3>
+        <SectionHeader>Interactive Icons</SectionHeader>
         <div className='flex gap-4 items-center flex-wrap'>
-          <button className='p-2 rounded hover:bg-gray-100 transition-colors cursor-pointer'>
+          <button className='p-2 rounded hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors cursor-pointer'>
             <Icon
               name='PencilIcon'
-              className='text-gray-600 hover:text-gray-800'
+              className='text-gray-600 dark:text-gray-400 hover:text-gray-800 dark:hover:text-gray-200 transition-colors duration-150'
             />
           </button>
-          <button className='p-2 rounded hover:bg-red-50 transition-colors cursor-pointer'>
+          <button className='p-2 rounded hover:bg-red-50 dark:hover:bg-red-900/20 transition-colors cursor-pointer'>
             <Icon
               name='TrashIcon'
-              className='text-red-500 hover:text-red-700'
+              className='text-red-500 hover:text-red-700 dark:hover:text-red-400 transition-colors duration-150'
             />
           </button>
-          <button className='p-2 rounded hover:bg-blue-50 transition-colors cursor-pointer'>
+          <button className='p-2 rounded hover:bg-blue-50 dark:hover:bg-blue-900/20 transition-colors cursor-pointer'>
             <Icon
               name='ShareIcon'
-              className='text-blue-500 hover:text-blue-700'
+              className='text-blue-500 hover:text-blue-700 dark:hover:text-blue-400 transition-colors duration-150'
             />
           </button>
         </div>
         <CodeExample
           title='Expand interactive icons code'
-          code={`<button className="p-2 rounded hover:bg-gray-100 transition-colors cursor-pointer">
-  <Icon name="PencilIcon" className="text-gray-600 hover:text-gray-800" />
+          code={`<button className="p-2 rounded hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors cursor-pointer">
+  <Icon name="PencilIcon" className="text-gray-600 dark:text-gray-400 hover:text-gray-800 dark:hover:text-gray-200 transition-colors duration-150" />
 </button>
-<button className="p-2 rounded hover:bg-red-50 transition-colors cursor-pointer">
-  <Icon name="TrashIcon" className="text-red-500 hover:text-red-700" />
+<button className="p-2 rounded hover:bg-red-50 dark:hover:bg-red-900/20 transition-colors cursor-pointer">
+  <Icon name="TrashIcon" className="text-red-500 hover:text-red-700 dark:hover:text-red-400 transition-colors duration-150" />
 </button>
-<button className="p-2 rounded hover:bg-blue-50 transition-colors cursor-pointer">
-  <Icon name="ShareIcon" className="text-blue-500 hover:text-blue-700" />
+<button className="p-2 rounded hover:bg-blue-50 dark:hover:bg-blue-900/20 transition-colors cursor-pointer">
+  <Icon name="ShareIcon" className="text-blue-500 hover:text-blue-700 dark:hover:text-blue-400 transition-colors duration-150" />
 </button>`}
-          jsCode={`<button className="p-2 rounded hover:bg-gray-100 transition-colors cursor-pointer">
-  <Icon name="PencilIcon" className="text-gray-600 hover:text-gray-800" />
+          jsCode={`<button className="p-2 rounded hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors cursor-pointer">
+  <Icon name="PencilIcon" className="text-gray-600 dark:text-gray-400 hover:text-gray-800 dark:hover:text-gray-200 transition-colors duration-150" />
 </button>
-<button className="p-2 rounded hover:bg-red-50 transition-colors cursor-pointer">
-  <Icon name="TrashIcon" className="text-red-500 hover:text-red-700" />
+<button className="p-2 rounded hover:bg-red-50 dark:hover:bg-red-900/20 transition-colors cursor-pointer">
+  <Icon name="TrashIcon" className="text-red-500 hover:text-red-700 dark:hover:text-red-400 transition-colors duration-150" />
 </button>
-<button className="p-2 rounded hover:bg-blue-50 transition-colors cursor-pointer">
-  <Icon name="ShareIcon" className="text-blue-500 hover:text-blue-700" />
+<button className="p-2 rounded hover:bg-blue-50 dark:hover:bg-blue-900/20 transition-colors cursor-pointer">
+  <Icon name="ShareIcon" className="text-blue-500 hover:text-blue-700 dark:hover:text-blue-400 transition-colors duration-150" />
 </button>`}
         />
       </div>

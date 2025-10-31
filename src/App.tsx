@@ -8,6 +8,7 @@ import {
   showcaseComponents,
   Sidebar,
 } from './showcase';
+import { ThemeProvider } from './showcase/contexts/ThemeContext';
 
 function App() {
   const [activeComponent, setActiveComponent] = useState('');
@@ -28,20 +29,22 @@ function App() {
   };
 
   return (
-    <div className='min-h-screen bg-gray-50 flex'>
-      <Sidebar
-        components={showcaseComponents}
-        activeComponent={activeComponent}
-        onComponentSelect={setActiveComponent}
-      />
+    <ThemeProvider>
+      <div className='min-h-screen bg-gray-50 dark:bg-gray-900 flex transition-all duration-150'>
+        <Sidebar
+          components={showcaseComponents}
+          activeComponent={activeComponent}
+          onComponentSelect={setActiveComponent}
+        />
 
-      <MainContent
-        activeComponent={activeComponent}
-        components={showcaseComponents}
-      >
-        {renderComponentDemo()}
-      </MainContent>
-    </div>
+        <MainContent
+          activeComponent={activeComponent}
+          components={showcaseComponents}
+        >
+          {renderComponentDemo()}
+        </MainContent>
+      </div>
+    </ThemeProvider>
   );
 }
 
