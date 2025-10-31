@@ -55,7 +55,10 @@ jobs:
         run: |
           npm run type-check
           npm run lint
-          npm run test:ci
+          npm run test:coverage
+
+      - name: 📊 Prepare coverage data for showcase
+        run: npm run test:coverage:copy
 
       - name: 🏗️ Build library
         run: npm run build:lib
