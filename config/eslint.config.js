@@ -91,4 +91,22 @@ export default [
       '@typescript-eslint/no-unused-vars': 'off',
     },
   },
+
+  // CommonJS files
+  {
+    files: ['**/*.cjs'],
+    languageOptions: {
+      ecmaVersion: 2024,
+      sourceType: 'commonjs',
+      globals: {
+        ...globals.node,
+      },
+    },
+    rules: {
+      'no-console': 'off',
+      '@typescript-eslint/no-require-imports': 'off',
+      '@typescript-eslint/no-unused-vars': 'off',
+      'no-undef': 'off',
+    },
+  },
 ];

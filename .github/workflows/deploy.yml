@@ -39,7 +39,10 @@ jobs:
       - name: 📦 Install dependencies
         run: npm ci --prefer-offline --no-audit
 
-      - name: 🔍 Type check
+      - name: � Generate component registry
+        run: npm run generate:registry
+
+      - name: �🔍 Type check
         run: npm run type-check
 
       - name: 💄 Check code formatting
@@ -70,6 +73,9 @@ jobs:
 
       - name: 📦 Install dependencies
         run: npm ci --prefer-offline --no-audit
+
+      - name: 🔄 Generate component registry
+        run: npm run generate:registry
 
       - name: 🧪 Generate coverage data for showcase
         run: npm run test:coverage

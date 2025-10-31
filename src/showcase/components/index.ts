@@ -1,5 +1,6 @@
 export { ButtonDemo } from './ButtonDemo';
 export { CodeExample } from './CodeExample';
+export { IconDemo } from './IconDemo';
 export { LandingPage } from './LandingPage';
 export { MainContent } from './MainContent';
 export { Sidebar } from './Sidebar';
