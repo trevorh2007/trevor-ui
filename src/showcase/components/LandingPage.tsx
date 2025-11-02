@@ -1,14 +1,12 @@
 import React from 'react';
+import { useNavigate } from 'react-router-dom';
 import packageJson from '../../../package.json';
 import { Button } from '../../components/Button';
 import { showcaseComponents } from '../config';
 import { useCoverage } from '../utils/coverage';
 
-interface LandingPageProps {
-  onGetStarted: () => void;
-}
-
-export const LandingPage: React.FC<LandingPageProps> = ({ onGetStarted }) => {
+export const LandingPage: React.FC = () => {
+  const navigate = useNavigate();
   const dependencyCount = packageJson.dependencies
     ? Object.keys(packageJson.dependencies).length
     : 0;
@@ -34,7 +32,7 @@ export const LandingPage: React.FC<LandingPageProps> = ({ onGetStarted }) => {
           {packageJson.description}
         </p>
         <div className='flex gap-4 justify-center'>
-          <Button onClick={onGetStarted} size='lg'>
+          <Button onClick={() => navigate('/components/button')} size='lg'>
             Explore Components
           </Button>
           <Button

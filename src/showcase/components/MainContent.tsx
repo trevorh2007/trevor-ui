@@ -1,17 +1,18 @@
 import React from 'react';
+import { useLocation } from 'react-router-dom';
 import type { ComponentItem } from './Sidebar';
 
 interface MainContentProps {
-  activeComponent: string;
   components: ComponentItem[];
   children: React.ReactNode;
 }
 
 export const MainContent: React.FC<MainContentProps> = ({
-  activeComponent,
   components,
   children,
 }) => {
+  const location = useLocation();
+  const activeComponent = location.pathname.split('/').pop() || '';
   const currentComponent = components.find(c => c.id === activeComponent);
 
   return (
