@@ -19,25 +19,30 @@ export const LandingPage: React.FC = () => {
   const coveragePercentage = useCoverage();
 
   return (
-    <div className='max-w-4xl mx-auto px-6 py-12 lg:py-12 -mt-2 lg:mt-0 text-center'>
+    <div className='max-w-4xl xl:max-w-5xl 2xl:max-w-6xl mx-auto px-6 py-12 md:py-12 -mt-2 md:mt-0 text-center'>
       {/* Hero Section */}
       <div className='mb-12'>
-        <h1 className='text-5xl font-bold text-gray-900 dark:text-white mb-4'>
+        <h1 className='text-5xl xl:text-6xl 2xl:text-7xl font-bold text-gray-900 dark:text-white mb-4'>
           {packageJson.name
             .split('-')
             .map(word => word.charAt(0).toUpperCase() + word.slice(1))
             .join(' ')}
         </h1>
-        <p className='text-xl text-gray-600 dark:text-gray-300 mb-8 max-w-2xl mx-auto'>
+        <p className='text-xl xl:text-2xl text-gray-600 dark:text-gray-300 mb-8 max-w-2xl xl:max-w-3xl mx-auto'>
           {packageJson.description}
         </p>
         <div className='flex gap-4 justify-center'>
-          <Button onClick={() => navigate('/components/button')} size='lg'>
+          <Button
+            onClick={() => navigate('/components/button')}
+            size='sm'
+            className='sm:px-4! sm:py-2! sm:text-sm! md:px-6! md:py-3! md:text-base! xl:px-8! xl:py-4! xl:text-lg!'
+          >
             Explore Components
           </Button>
           <Button
             color='secondary'
-            size='lg'
+            size='sm'
+            className='sm:px-4! sm:py-2! sm:text-sm! md:px-6! md:py-3! md:text-base! xl:px-8! xl:py-4! xl:text-lg!'
             onClick={() => window.open(repositoryUrl, '_blank')}
           >
             View on GitHub
@@ -46,7 +51,7 @@ export const LandingPage: React.FC = () => {
       </div>
 
       {/* Features Grid */}
-      <div className='grid md:grid-cols-3 gap-8 mb-12'>
+      <div className='grid lg:grid-cols-3 gap-8 xl:gap-10 mb-12'>
         <div className='p-6 bg-white dark:bg-gray-800 rounded-lg border border-gray-200 dark:border-gray-700 shadow-sm transition-colors duration-200'>
           <div className='w-12 h-12 bg-blue-100 dark:bg-blue-900 rounded-lg flex items-center justify-center mb-4 mx-auto'>
             <svg
@@ -124,10 +129,10 @@ export const LandingPage: React.FC = () => {
       </div>
 
       {/* Quick Stats */}
-      <div className='bg-linear-to-r from-blue-50 to-purple-50 dark:from-blue-900/20 dark:to-purple-900/20 rounded-lg p-8 mb-12 transition-colors duration-200'>
-        <div className='grid grid-cols-2 md:grid-cols-4 gap-6'>
+      <div className='bg-linear-to-r from-blue-50 to-purple-50 dark:from-blue-900/20 dark:to-purple-900/20 rounded-lg p-8 xl:p-10 mb-12 transition-colors duration-200'>
+        <div className='grid grid-cols-2 md:grid-cols-4 gap-6 xl:gap-8'>
           <div className='text-center'>
-            <div className='text-2xl font-bold text-gray-900 dark:text-white mb-1'>
+            <div className='text-2xl xl:text-3xl font-bold text-gray-900 dark:text-white mb-1'>
               {showcaseComponents.length}
             </div>
             <div className='text-sm text-gray-600 dark:text-gray-300'>
@@ -162,8 +167,8 @@ export const LandingPage: React.FC = () => {
       </div>
 
       {/* Getting Started */}
-      <div className='text-left max-w-2xl mx-auto'>
-        <h2 className='text-2xl font-bold text-gray-900 dark:text-white mb-4'>
+      <div className='text-left max-w-2xl xl:max-w-3xl mx-auto'>
+        <h2 className='text-2xl xl:text-3xl font-bold text-gray-900 dark:text-white mb-4'>
           Quick Start
         </h2>
         <div className='bg-gray-900 dark:bg-gray-800 rounded-lg p-4 mb-6'>
