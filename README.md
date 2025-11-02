@@ -26,35 +26,70 @@ Experience the component library at:
 
 The showcase features:
 
-- **📱 Responsive Design**: Professional landing page with component statistics
-- **🧭 Sidebar Navigation**: Easy browsing of all available components
-- **📊 Dynamic Stats**: Real-time component count, test coverage, and dependency tracking
-- **🎯 Live Demos**: Interactive component demonstrations with code examples
-- **📈 Coverage Display**: Automatically updated test coverage percentages
+- **Responsive Design**: Professional landing page with component statistics
+- **Sidebar Navigation**: Easy browsing of all available components with React Router
+- **Dynamic Stats**: Real-time component count, test coverage, and dependency tracking
+- **Live Demos**: Interactive component demonstrations with code examples
+- **Coverage Display**: Automatically updated test coverage percentages
+- **Dark Mode Support**: Theme toggle with system preference detection
+- **URL Routing**: Deep linking to specific components with browser history support
 
 ## 📦 Components
 
 ### Button Component
 
-A versatile button component with multiple variants, sizes, and states.
+A versatile button component with multiple variants, colors, sizes, states, and icon support.
 
 **Props:**
 
 - `children`: React.ReactNode - Button content
-- `variant`: 'primary' | 'secondary' | 'danger' - Button style variant
-- `size`: 'sm' | 'md' | 'lg' - Button size
+- `variant`: 'primary' | 'outline' - Button style variant (default: 'primary')
+- `color`: 'primary' | 'secondary' | 'danger' | 'success' | 'info' | 'warning' - Button color theme
+  (default: 'primary')
+- `size`: 'xs' | 'sm' | 'md' | 'lg' - Button size (default: 'md')
 - `disabled`: boolean - Disabled state
+- `loading`: boolean - Loading state with spinner
+- `icon`: React.ReactNode - Optional icon element
+- `iconPosition`: 'left' | 'right' - Icon position (default: 'left')
 - `onClick`: () => void - Click handler
 - `className`: string - Additional CSS classes
 
 **Example:**
 
 ```tsx
-import { Button } from 'component-library';
+import { Button } from 'trevor-ui';
 
-<Button variant='primary' size='lg' onClick={() => console.log('Clicked!')}>
+<Button variant='primary' color='danger' size='lg' onClick={() => console.log('Clicked!')}>
   Click me!
-</Button>;
+</Button>
+
+// With loading state
+<Button loading={true}>Processing...</Button>
+
+// With icon
+<Button icon={<MyIcon />} iconPosition='left'>
+  Save
+</Button>
+```
+
+### Icon Component
+
+A type-safe icon component powered by Heroicons with consistent sizing and styling.
+
+**Props:**
+
+- `name`: HeroIconName - Icon name from Heroicons library
+- `variant`: 'outline' | 'solid' - Icon variant (default: 'outline')
+- `size`: 'sm' | 'md' | 'lg' | 'xl' - Icon size (default: 'md')
+- `className`: string - Additional CSS classes
+- `aria-label`: string - Accessible label for screen readers
+
+**Example:**
+
+```tsx
+import { Icon } from 'trevor-ui';
+
+<Icon name='CheckIcon' variant='solid' size='lg' aria-label='Success' />;
 ```
 
 ## 🛠️ Development
@@ -87,19 +122,24 @@ npm install trevor-ui
 ### Usage
 
 ```tsx
-import { Button } from 'trevor-ui';
+import { Button, Icon } from 'trevor-ui';
 
 function App() {
   return (
-    <Button variant='primary' size='lg'>
-      Get Started
-    </Button>
+    <div>
+      <Button variant='primary' color='success' size='lg'>
+        Get Started
+      </Button>
+
+      <Icon name='CheckIcon' variant='solid' size='md' />
+    </div>
   );
 }
 ```
 
 ### Development Scripts
 
+- `npm run generate:registry` - Generate component registry (auto-runs during build/dev)
 - `npm run dev` - Start development server with showcase
 - `npm run build` - Build showcase for production
 - `npm run build:lib` - Build library for NPM distribution
@@ -107,35 +147,56 @@ function App() {
 - `npm run test:watch` - Run tests in watch mode
 - `npm run test:coverage` - Run tests with coverage report and copy data for showcase
 - `npm run test:coverage:copy` - Copy coverage data to public directory for showcase
+- `npm run test:ci` - Run tests in CI mode (no watch, with coverage)
 - `npm run lint` - Run ESLint
 - `npm run lint:fix` - Run ESLint with auto-fix
 - `npm run format` - Format code with Prettier
+- `npm run format:check` - Check code formatting without modifying files
 - `npm run type-check` - Run TypeScript type checking
+- `npm run fix` - Run linting and formatting fixes together
+- `npm run validate` - Run all quality checks (lint, format, type-check, test)
 - `npm run preview` - Preview production build
+- `npm run clean` - Remove dist and coverage directories
+- `npm run prepare` - Set up Husky git hooks
+- `npm run prepublishOnly` - Pre-publish validation and build
 
 ### Project Structure
 
 ```
 src/
 ├── components/          # Reusable UI components
-│   └── Button/         # Button component
-│       ├── Button.tsx     # Component implementation
-│       ├── Button.test.tsx # Component tests
-│       └── index.ts       # Component exports
+│   ├── Button/         # Button component
+│   │   ├── Button.tsx     # Component implementation
+│   │   ├── Button.test.tsx # Component tests
+│   │   └── index.ts       # Component exports
+│   ├── Icon/           # Icon component
+│   │   ├── Icon.tsx       # Component implementation
+│   │   ├── Icon.test.tsx  # Component tests
+│   │   └── index.ts       # Component exports
+│   ├── SectionHeader/  # Section header component
+│   │   ├── SectionHeader.tsx     # Component implementation
+│   │   ├── SectionHeader.test.tsx # Component tests
+│   │   └── index.ts              # Component exports
+│   └── registry.ts     # Auto-generated component registry (gitignored)
 ├── lib/                # Library exports and utilities
 │   ├── index.ts        # Main library export file
 │   └── lib.test.ts     # Library export tests
 ├── showcase/           # Interactive showcase system
 │   ├── components/     # Showcase-specific components
 │   │   ├── ButtonDemo.tsx      # Button component demo
+│   │   ├── IconDemo.tsx        # Icon component demo
+│   │   ├── CodeExample.tsx     # Reusable code example component
 │   │   ├── LandingPage.tsx     # Showcase landing page
-│   │   ├── MainContent.tsx     # Content wrapper
-│   │   └── Sidebar.tsx         # Navigation sidebar
+│   │   ├── MainContent.tsx     # Content wrapper with routing
+│   │   ├── Sidebar.tsx         # Navigation sidebar with routing
+│   │   └── ThemeToggle.tsx     # Dark mode toggle
+│   ├── contexts/       # React contexts
+│   │   └── ThemeContext.tsx    # Theme context for dark mode
 │   ├── utils/          # Showcase utilities
 │   │   └── coverage.ts         # Dynamic coverage integration
 │   ├── config.ts       # Showcase configuration
 │   └── index.ts        # Showcase exports
-├── App.tsx             # Main application component
+├── App.tsx             # Main application component with routing
 ├── main.tsx            # Application entry point
 └── index.css           # Global styles with Tailwind
 ```
@@ -227,15 +288,17 @@ npm install trevor-ui
 Import and use components:
 
 ```tsx
-import { Button } from 'trevor-ui';
-// or import type { ButtonProps } from 'trevor-ui';
+import { Button, Icon } from 'trevor-ui';
+// or import type { ButtonProps, IconProps } from 'trevor-ui';
 
 function MyApp() {
   return (
     <div>
-      <Button variant='primary' size='lg' onClick={() => alert('Hello!')}>
+      <Button variant='primary' color='success' size='lg' onClick={() => alert('Hello!')}>
         Click me!
       </Button>
+
+      <Icon name='CheckIcon' variant='solid' size='md' />
     </div>
   );
 }
@@ -246,12 +309,16 @@ function MyApp() {
 To add a new component to the showcase:
 
 1. Create your component in `src/components/ComponentName/`
-2. Add comprehensive tests
-3. Export from `src/lib/index.ts`
-4. Add to showcase config in `src/showcase/config.ts`
-5. Create a demo component in `src/showcase/components/ComponentNameDemo.tsx`
+   - `ComponentName.tsx` - Component implementation
+   - `ComponentName.test.tsx` - Comprehensive tests
+   - `index.ts` - Component exports
+2. Export from `src/lib/index.ts`
+3. Add to showcase config in `src/showcase/config.ts`
+4. Create a demo component in `src/showcase/components/ComponentNameDemo.tsx`
+5. Add route in `src/App.tsx` for the new component
+6. Run `npm run generate:registry` to update the registry
 
-The component count and coverage will update automatically!
+The component registry, count, and coverage will update automatically!
 
 ## 🤝 Contributing
 
@@ -268,13 +335,24 @@ We welcome contributions! Please follow these steps:
 
 ### Pull Request Requirements
 
-- ✅ All tests pass with maintained coverage
-- ✅ TypeScript compilation succeeds
-- ✅ Linting and formatting checks pass
-- ✅ New components include showcase demos
-- ✅ Documentation is updated as needed
+- All tests pass with maintained coverage
+- TypeScript compilation succeeds
+- Linting and formatting checks pass
+- New components include showcase demos
+- Component registry updates automatically
+- Documentation is updated as needed
 
 The automated PR checks will validate your contribution and provide feedback!
+
+### Git Hooks
+
+This project uses Husky and lint-staged for pre-commit validation:
+
+- **Pre-commit**: Automatically formats and lints staged files
+- **Type checking**: Runs before commit
+- **Test execution**: Validates changes don't break tests
+
+Run `npm run validate` locally before pushing to catch issues early.
 
 ## 📄 License
 
@@ -289,7 +367,7 @@ Tailwind CSS is configured in `config/tailwind.config.js` with:
 - Custom design tokens
 - Component-specific utilities
 - Responsive breakpoints
-- Dark mode support (ready)
+- Dark mode support (class-based with system preference detection)
 
 ### TypeScript
 
@@ -329,8 +407,10 @@ Three comprehensive workflows provide:
 
 ## 📊 Project Stats
 
-- **Components**: 1 (Button) - _Auto-updating in showcase_
-- **Test Coverage**: 100% - _Real-time display_
+- **Components**: 3 (Button, Icon, SectionHeader) - Auto-updating in showcase
+- **Test Coverage**: 100% - Real-time display
 - **TypeScript**: 100% type coverage
-- **Dependencies**: 2 runtime (React + React DOM)
+- **Runtime Dependencies**: 4 (React, React DOM, Heroicons, React Router)
 - **Bundle Size**: Optimized for tree-shaking
+- **Node**: >=18.0.0
+- **React**: >=18.0.0
