@@ -8,6 +8,7 @@ real-time test coverage integration and automated CI/CD workflows.
 
 - **Modern Stack**: Built with React 19, TypeScript, and Vite
 - **Styled with Tailwind CSS v4**: Latest utility-first CSS framework for rapid UI development
+- **URL-Based Routing**: React Router integration for seamless navigation and deep linking
 - **Dynamic Showcase System**: Interactive component showcase with sidebar navigation and landing
   page
 - **Real-time Coverage Integration**: Live test coverage display that updates automatically
