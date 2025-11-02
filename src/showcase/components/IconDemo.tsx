@@ -26,12 +26,6 @@ export const IconDemo = () => {
 <Icon name="UserIcon" className="${DEFAULT_ICON_COLORS}" />
 <Icon name="CogIcon" className="${DEFAULT_ICON_COLORS}" />
 <Icon name="HeartIcon" className="${DEFAULT_ICON_COLORS}" />`}
-          jsCode={`<Icon name="PlusIcon" className="${DEFAULT_ICON_COLORS}" />
-<Icon name="MinusIcon" className="${DEFAULT_ICON_COLORS}" />
-<Icon name="HomeIcon" className="${DEFAULT_ICON_COLORS}" />
-<Icon name="UserIcon" className="${DEFAULT_ICON_COLORS}" />
-<Icon name="CogIcon" className="${DEFAULT_ICON_COLORS}" />
-<Icon name="HeartIcon" className="${DEFAULT_ICON_COLORS}" />`}
         />
       </div>
 
@@ -50,10 +44,6 @@ export const IconDemo = () => {
         <CodeExample
           title='Expand sizes code'
           code={`<Icon name="StarIcon" size="sm" className="${DEFAULT_ICON_COLORS}" />
-<Icon name="StarIcon" size="md" className="${DEFAULT_ICON_COLORS}" />
-<Icon name="StarIcon" size="lg" className="${DEFAULT_ICON_COLORS}" />
-<Icon name="StarIcon" size="xl" className="${DEFAULT_ICON_COLORS}" />`}
-          jsCode={`<Icon name="StarIcon" size="sm" className="${DEFAULT_ICON_COLORS}" />
 <Icon name="StarIcon" size="md" className="${DEFAULT_ICON_COLORS}" />
 <Icon name="StarIcon" size="lg" className="${DEFAULT_ICON_COLORS}" />
 <Icon name="StarIcon" size="xl" className="${DEFAULT_ICON_COLORS}" />`}
@@ -80,10 +70,6 @@ export const IconDemo = () => {
 <Icon name="HeartIcon" variant="solid" className="${DEFAULT_ICON_COLORS}" />
 <Icon name="StarIcon" variant="outline" className="${DEFAULT_ICON_COLORS}" />
 <Icon name="StarIcon" variant="solid" className="${DEFAULT_ICON_COLORS}" />`}
-          jsCode={`<Icon name="HeartIcon" variant="outline" className="${DEFAULT_ICON_COLORS}" />
-<Icon name="HeartIcon" variant="solid" className="${DEFAULT_ICON_COLORS}" />
-<Icon name="StarIcon" variant="outline" className="${DEFAULT_ICON_COLORS}" />
-<Icon name="StarIcon" variant="solid" className="${DEFAULT_ICON_COLORS}" />`}
         />
       </div>
 
@@ -98,10 +84,6 @@ export const IconDemo = () => {
         <CodeExample
           title='Expand colored icons code'
           code={`<Icon name="CheckCircleIcon" className="text-green-500" />
-<Icon name="XCircleIcon" className="text-red-500" />
-<Icon name="ExclamationTriangleIcon" className="text-yellow-500" />
-<Icon name="InformationCircleIcon" className="text-blue-500" />`}
-          jsCode={`<Icon name="CheckCircleIcon" className="text-green-500" />
 <Icon name="XCircleIcon" className="text-red-500" />
 <Icon name="ExclamationTriangleIcon" className="text-yellow-500" />
 <Icon name="InformationCircleIcon" className="text-blue-500" />`}
@@ -133,15 +115,6 @@ export const IconDemo = () => {
         <CodeExample
           title='Expand interactive icons code'
           code={`<button className="p-2 rounded hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors cursor-pointer">
-  <Icon name="PencilIcon" className="text-gray-600 dark:text-gray-400 hover:text-gray-800 dark:hover:text-gray-200 transition-colors duration-150" />
-</button>
-<button className="p-2 rounded hover:bg-red-50 dark:hover:bg-red-900/20 transition-colors cursor-pointer">
-  <Icon name="TrashIcon" className="text-red-500 hover:text-red-700 dark:hover:text-red-400 transition-colors duration-150" />
-</button>
-<button className="p-2 rounded hover:bg-blue-50 dark:hover:bg-blue-900/20 transition-colors cursor-pointer">
-  <Icon name="ShareIcon" className="text-blue-500 hover:text-blue-700 dark:hover:text-blue-400 transition-colors duration-150" />
-</button>`}
-          jsCode={`<button className="p-2 rounded hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors cursor-pointer">
   <Icon name="PencilIcon" className="text-gray-600 dark:text-gray-400 hover:text-gray-800 dark:hover:text-gray-200 transition-colors duration-150" />
 </button>
 <button className="p-2 rounded hover:bg-red-50 dark:hover:bg-red-900/20 transition-colors cursor-pointer">

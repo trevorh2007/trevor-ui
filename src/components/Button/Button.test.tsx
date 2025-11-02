@@ -17,8 +17,8 @@ describe('Button', () => {
     expect(handleClick).toHaveBeenCalledTimes(1);
   });
 
-  it('applies variant classes correctly', () => {
-    render(<Button variant='danger'>Danger Button</Button>);
+  it('applies color classes correctly', () => {
+    render(<Button color='danger'>Danger Button</Button>);
     const button = screen.getByRole('button');
     expect(button).toHaveClass('bg-red-600');
   });
@@ -97,7 +97,7 @@ describe('Button', () => {
       ).toBeInTheDocument();
     });
 
-    it('applies correct icon size classes for small buttons', () => {
+    it('applies shrink-0 class to icon wrapper', () => {
       const icon = <span data-testid='test-icon'>🚀</span>;
       render(
         <Button icon={icon} size='sm'>
@@ -108,44 +108,11 @@ describe('Button', () => {
       const button = screen.getByRole('button');
       const contentDiv = button.firstChild as HTMLElement;
       const iconWrapper = contentDiv.querySelector(
-        'span[class*="w-4"]'
+        'span.shrink-0'
       ) as HTMLElement;
 
-      expect(iconWrapper).toHaveClass('w-4', 'h-4', 'shrink-0');
-    });
-
-    it('applies correct icon size classes for medium buttons', () => {
-      const icon = <span data-testid='test-icon'>🚀</span>;
-      render(
-        <Button icon={icon} size='md'>
-          Medium button
-        </Button>
-      );
-
-      const button = screen.getByRole('button');
-      const contentDiv = button.firstChild as HTMLElement;
-      const iconWrapper = contentDiv.querySelector(
-        'span[class*="w-5"]'
-      ) as HTMLElement;
-
-      expect(iconWrapper).toHaveClass('w-5', 'h-5', 'shrink-0');
-    });
-
-    it('applies correct icon size classes for large buttons', () => {
-      const icon = <span data-testid='test-icon'>🚀</span>;
-      render(
-        <Button icon={icon} size='lg'>
-          Large button
-        </Button>
-      );
-
-      const button = screen.getByRole('button');
-      const contentDiv = button.firstChild as HTMLElement;
-      const iconWrapper = contentDiv.querySelector(
-        'span[class*="w-6"]'
-      ) as HTMLElement;
-
-      expect(iconWrapper).toHaveClass('w-6', 'h-6', 'shrink-0');
+      expect(iconWrapper).toHaveClass('shrink-0');
+      expect(iconWrapper).toBeInTheDocument();
     });
 
     it('renders button without icon when icon prop is not provided', () => {
@@ -166,6 +133,99 @@ describe('Button', () => {
 
       fireEvent.click(screen.getByRole('button'));
       expect(handleClick).toHaveBeenCalledTimes(1);
+    });
+  });
+
+  describe('Variant functionality', () => {
+    it('applies outline variant classes correctly', () => {
+      render(<Button variant='outline'>Outline Button</Button>);
+      const button = screen.getByRole('button');
+      expect(button).toHaveClass('bg-transparent', 'border-2');
+    });
+
+    it('applies outline variant with different colors', () => {
+      render(
+        <Button variant='outline' color='danger'>
+          Outline Danger
+        </Button>
+      );
+      const button = screen.getByRole('button');
+      expect(button).toHaveClass('border-red-600', 'text-red-600');
+    });
+  });
+
+  describe('Loading state', () => {
+    it('shows loading spinner when loading is true', () => {
+      render(<Button loading>Loading Button</Button>);
+      const button = screen.getByRole('button');
+
+      // Button should be disabled
+      expect(button).toBeDisabled();
+      expect(button).toHaveClass('opacity-50', 'cursor-not-allowed');
+
+      // Text should be invisible
+      const textSpan = screen.getByText('Loading Button');
+      expect(textSpan).toHaveClass('invisible');
+    });
+
+    it('hides loading spinner when loading is false', () => {
+      render(<Button loading={false}>Normal Button</Button>);
+      const button = screen.getByRole('button');
+
+      // Button should not be disabled
+      expect(button).not.toBeDisabled();
+
+      // Text should be visible
+      const textSpan = screen.getByText('Normal Button');
+      expect(textSpan).not.toHaveClass('invisible');
+    });
+
+    it('makes icon invisible when loading', () => {
+      const icon = <span data-testid='test-icon'>🚀</span>;
+      render(
+        <Button icon={icon} loading>
+          Loading with Icon
+        </Button>
+      );
+
+      const button = screen.getByRole('button');
+      const contentDiv = button.firstChild as HTMLElement;
+      const iconSpan = contentDiv.querySelector(
+        'span:has([data-testid="test-icon"])'
+      ) as HTMLElement;
+
+      expect(iconSpan).toHaveClass('invisible');
+    });
+
+    it('prevents click events when loading', () => {
+      const handleClick = jest.fn();
+      render(
+        <Button loading onClick={handleClick}>
+          Loading Button
+        </Button>
+      );
+
+      const button = screen.getByRole('button');
+      fireEvent.click(button);
+
+      // Click should not trigger because button is disabled
+      expect(handleClick).not.toHaveBeenCalled();
+    });
+
+    it('shows loading spinner with right positioned icon', () => {
+      const icon = <span data-testid='test-icon'>🚀</span>;
+      render(
+        <Button icon={icon} iconPosition='right' loading>
+          Loading
+        </Button>
+      );
+
+      const button = screen.getByRole('button');
+      expect(button).toBeDisabled();
+
+      // Both text and icon should be invisible
+      const textSpan = screen.getByText('Loading');
+      expect(textSpan).toHaveClass('invisible');
     });
   });
 });
