@@ -19,7 +19,7 @@ export const LandingPage: React.FC = () => {
   const coveragePercentage = useCoverage();
 
   return (
-    <div className='max-w-4xl mx-auto px-6 py-12 text-center'>
+    <div className='max-w-4xl mx-auto px-6 py-12 lg:py-12 -mt-2 lg:mt-0 text-center'>
       {/* Hero Section */}
       <div className='mb-12'>
         <h1 className='text-5xl font-bold text-gray-900 dark:text-white mb-4'>

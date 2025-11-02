@@ -17,7 +17,7 @@ export const MainContent: React.FC<MainContentProps> = ({
 
   return (
     <div className='flex-1 overflow-auto bg-gray-50 dark:bg-gray-900 transition-all duration-150'>
-      <div className='max-w-4xl mx-auto px-6 py-8'>
+      <div className='max-w-4xl mx-auto px-6 py-8 pt-20 lg:pt-8'>
         {activeComponent && currentComponent && (
           <div className='mb-8'>
             <h1 className='text-3xl font-bold text-gray-900 dark:text-white mb-2 transition-colors duration-150'>
