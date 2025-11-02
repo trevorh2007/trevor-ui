@@ -18,6 +18,9 @@ coverage/
 # Generated coverage data for showcase
 public/coverage-summary.json
 
+# Auto-generated component registry
+src/components/registry.ts
+
 # Environment files
 .env
 .env.local
