@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { BrowserRouter, Navigate, Route, Routes } from 'react-router-dom';
 import './App.css';
 import {
   ButtonDemo,
@@ -11,39 +11,22 @@ import {
 import { ThemeProvider } from './showcase/contexts/ThemeContext';
 
 function App() {
-  const [activeComponent, setActiveComponent] = useState('');
-
-  const renderComponentDemo = () => {
-    switch (activeComponent) {
-      case 'button':
-        return <ButtonDemo />;
-      case 'icon':
-        return <IconDemo />;
-      case '':
-        return (
-          <LandingPage onGetStarted={() => setActiveComponent('button')} />
-        );
-      default:
-        return <div>Component not found</div>;
-    }
-  };
-
   return (
     <ThemeProvider>
-      <div className='min-h-screen bg-gray-50 dark:bg-gray-900 flex transition-all duration-150'>
-        <Sidebar
-          components={showcaseComponents}
-          activeComponent={activeComponent}
-          onComponentSelect={setActiveComponent}
-        />
+      <BrowserRouter>
+        <div className='min-h-screen bg-gray-50 dark:bg-gray-900 flex transition-all duration-150'>
+          <Sidebar components={showcaseComponents} />
 
-        <MainContent
-          activeComponent={activeComponent}
-          components={showcaseComponents}
-        >
-          {renderComponentDemo()}
-        </MainContent>
-      </div>
+          <MainContent components={showcaseComponents}>
+            <Routes>
+              <Route path='/' element={<LandingPage />} />
+              <Route path='/components/button' element={<ButtonDemo />} />
+              <Route path='/components/icon' element={<IconDemo />} />
+              <Route path='*' element={<Navigate to='/' replace />} />
+            </Routes>
+          </MainContent>
+        </div>
+      </BrowserRouter>
     </ThemeProvider>
   );
 }
