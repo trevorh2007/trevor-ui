@@ -1,3 +1,4 @@
+/* eslint-disable react-refresh/only-export-components */
 import React, { createContext, useContext, useEffect, useState } from 'react';
 
 type Theme = 'light' | 'dark';
@@ -34,7 +35,6 @@ export const ThemeProvider: React.FC<ThemeProviderProps> = ({ children }) => {
   const toggleTheme = () => {
     setTheme(prevTheme => {
       const newTheme = prevTheme === 'light' ? 'dark' : 'light';
-      console.log('Theme changing from', prevTheme, 'to', newTheme);
       localStorage.setItem('demo-theme', newTheme);
       return newTheme;
     });
@@ -42,29 +42,17 @@ export const ThemeProvider: React.FC<ThemeProviderProps> = ({ children }) => {
 
   // Apply theme class to both html and root elements
   useEffect(() => {
-    console.log('Applying theme:', theme);
     const html = document.documentElement;
     const rootElement = document.getElementById('root');
 
     // Apply to HTML element for Tailwind dark mode
     html.classList.remove('light', 'dark');
     html.classList.add(theme);
-    console.log('HTML element classes:', html.className);
 
     // Also apply to root element for custom CSS
     if (rootElement) {
       rootElement.classList.remove('light', 'dark');
       rootElement.classList.add(theme);
-      console.log('Root element classes:', rootElement.className);
-    }
-
-    // Log computed styles to verify
-    const htmlStyle = window.getComputedStyle(html);
-    console.log('HTML computed background:', htmlStyle.backgroundColor);
-
-    if (rootElement) {
-      const rootStyle = window.getComputedStyle(rootElement);
-      console.log('Root computed background:', rootStyle.backgroundColor);
     }
   }, [theme]);
 

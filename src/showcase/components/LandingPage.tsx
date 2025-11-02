@@ -38,7 +38,7 @@ export const LandingPage: React.FC<LandingPageProps> = ({ onGetStarted }) => {
             Explore Components
           </Button>
           <Button
-            variant='secondary'
+            color='secondary'
             size='lg'
             onClick={() => window.open(repositoryUrl, '_blank')}
           >

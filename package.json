@@ -58,6 +58,7 @@
     "format:check": "prettier --check . --config config/prettier.config.json",
     "type-check": "tsc --noEmit",
     "fix": "npm run lint:fix && npm run format",
+    "validate": "npm run lint && npm run format:check && npm run type-check && npm run test:ci",
     "preview": "vite preview --config config/vite.config.ts",
     "clean": "rimraf dist coverage",
     "prepare": "husky",
