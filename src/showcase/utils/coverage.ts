@@ -30,7 +30,7 @@ export const useCoverage = () => {
   useEffect(() => {
     const fetchCoverage = async () => {
       try {
-        const response = await fetch('/trevor-ui/coverage-summary.json');
+        const response = await fetch('/coverage-summary.json');
         if (response.ok) {
           const data: CoverageData = await response.json();
           setCoverage(Math.round(data.total.lines.pct));
@@ -60,7 +60,7 @@ export const useDetailedCoverage = (): CoverageMetrics => {
   useEffect(() => {
     const fetchCoverage = async () => {
       try {
-        const response = await fetch('/trevor-ui/coverage-summary.json');
+        const response = await fetch('/coverage-summary.json');
         if (response.ok) {
           const data: CoverageData = await response.json();
           const { lines, statements, functions, branches } = data.total;
