@@ -51,7 +51,6 @@ export default defineConfig(({ mode }) => {
 
   return {
     ...baseConfig,
-    base: '/trevor-ui/',
     server: {
       port: 3000,
       open: true,
