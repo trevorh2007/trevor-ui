@@ -4,13 +4,9 @@ import { useTheme } from '../contexts/ThemeContext';
 export const ThemeToggle = () => {
   const { theme, toggleTheme } = useTheme();
 
-  const handleToggle = () => {
-    toggleTheme();
-  };
-
   return (
     <button
-      onClick={handleToggle}
+      onClick={toggleTheme}
       className='group p-2 rounded-lg transition-all duration-150 hover:bg-gray-100 dark:hover:bg-gray-800 hover:scale-105 active:scale-95 cursor-pointer'
       aria-label={`Switch to ${theme === 'light' ? 'dark' : 'light'} mode`}
       title={`Switch to ${theme === 'light' ? 'dark' : 'light'} mode`}

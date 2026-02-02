@@ -13,6 +13,12 @@ export const showcaseComponents: ComponentItem[] = [
     description:
       'Heroicons-based icon component with multiple sizes and variants',
   },
+  {
+    id: 'popover',
+    name: 'Popover',
+    description:
+      'Flexible popover component with adjustable anchor positioning',
+  },
   // Example future components - these will automatically update the count!
   // {
   //   id: 'input',

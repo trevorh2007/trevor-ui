@@ -1,7 +1,11 @@
-import React, { useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { Icon } from '../../components/Icon';
+import { Popover } from '../../components/Popover';
 import { ThemeToggle } from './ThemeToggle';
+
+// Module-level flag to coordinate popover showing
+let hasShownPopover = false;
 
 export interface ComponentItem {
   id: string;
@@ -17,6 +21,31 @@ export const Sidebar: React.FC<SidebarProps> = ({ components }) => {
   const location = useLocation();
   const activeComponent = location.pathname.split('/').pop() || '';
   const [isOpen, setIsOpen] = useState(false);
+  const [showPopover, setShowPopover] = useState(false);
+  const themeToggleRef = useRef<HTMLDivElement>(null);
+
+  // Show popover on first mount after a short delay, only once globally
+  useEffect(() => {
+    if (hasShownPopover) return;
+
+    // Only show popover on desktop screens (md and above)
+    const isDesktop = window.matchMedia('(min-width: 768px)').matches;
+    if (!isDesktop) return;
+
+    const timer = setTimeout(() => {
+      setShowPopover(true);
+      hasShownPopover = true;
+
+      // Auto-hide after 3 seconds
+      const hideTimer = setTimeout(() => {
+        setShowPopover(false);
+      }, 5000);
+
+      return () => clearTimeout(hideTimer);
+    }, 500);
+
+    return () => clearTimeout(timer);
+  }, []);
 
   const closeSidebar = () => setIsOpen(false);
 
@@ -74,7 +103,26 @@ export const Sidebar: React.FC<SidebarProps> = ({ components }) => {
               Component Library
             </p>
           </div>
-          <ThemeToggle />
+          <div ref={themeToggleRef}>
+            <ThemeToggle />
+          </div>
+          <Popover
+            open={showPopover}
+            anchorEl={themeToggleRef.current}
+            onClose={() => setShowPopover(false)}
+            anchorOrigin={{ vertical: 'center', horizontal: 'right' }}
+            transformOrigin={{ vertical: 'center', horizontal: 'left' }}
+            elevation={8}
+            className='ml-2'
+          >
+            <div className='px-4 py-2 text-sm text-gray-900 dark:text-white'>
+              <Icon
+                name='LightBulbIcon'
+                className='w-5 h-5 inline-block mr-2 text-yellow-500 '
+              />
+              Toggle between light and dark themes
+            </div>
+          </Popover>
         </div>
 
         {/* Navigation */}

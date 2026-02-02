@@ -5,6 +5,7 @@ import {
   IconDemo,
   LandingPage,
   MainContent,
+  PopoverDemo,
   showcaseComponents,
   Sidebar,
 } from './showcase';
@@ -22,6 +23,7 @@ function App() {
               <Route path='/' element={<LandingPage />} />
               <Route path='/components/button' element={<ButtonDemo />} />
               <Route path='/components/icon' element={<IconDemo />} />
+              <Route path='/components/popover' element={<PopoverDemo />} />
               <Route path='*' element={<Navigate to='/' replace />} />
             </Routes>
           </MainContent>
