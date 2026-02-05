@@ -57,6 +57,7 @@ export default defineConfig(({ mode }) => {
       cors: true,
     },
     build: {
+      base: '/trevor-ui/',
       outDir: 'dist',
       sourcemap: true,
       rollupOptions: {
