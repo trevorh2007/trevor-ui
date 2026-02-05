@@ -14,7 +14,7 @@ import { ThemeProvider } from './showcase/contexts/ThemeContext';
 function App() {
   return (
     <ThemeProvider>
-      <BrowserRouter>
+      <BrowserRouter basename='/trevor-ui'>
         <div className='min-h-screen bg-gray-50 dark:bg-gray-900 flex transition-all duration-150'>
           <Sidebar components={showcaseComponents} />
 
