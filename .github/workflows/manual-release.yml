@@ -80,10 +80,18 @@ jobs:
             console.log(`Release type: ${releaseType}`);
             console.log(`Pre-release: ${preRelease}`);
 
-            // Read current version
-            const packageJson = JSON.parse(fs.readFileSync('package.json', 'utf8'));
-            const currentVersion = packageJson.version;
-            console.log(`Current version: ${currentVersion}`);
+            // Get current version from last git tag (more reliable than package.json)
+            let currentVersion;
+            try {
+              const lastTag = execSync('git describe --tags --abbrev=0 2>/dev/null', { encoding: 'utf8' }).trim();
+              currentVersion = lastTag.replace(/^v/, ''); // Remove 'v' prefix
+              console.log(`Current version from last tag: ${currentVersion}`);
+            } catch {
+              // No tags exist yet, fall back to package.json
+              const packageJson = JSON.parse(fs.readFileSync('package.json', 'utf8'));
+              currentVersion = packageJson.version;
+              console.log(`No tags found, using package.json version: ${currentVersion}`);
+            }
 
             let bumpType = releaseType;
             let commits = [];
@@ -197,16 +205,9 @@ jobs:
               }
             }
 
-            // Update package.json with new version
-            packageJson.version = newVersion;
-            fs.writeFileSync('package.json', JSON.stringify(packageJson, null, 2) + '\n');
-
-            // Commit version bump
-            execSync('git config user.name "github-actions[bot]"');
-            execSync('git config user.email "github-actions[bot]@users.noreply.github.com"');
-            execSync('git add package.json');
-            execSync(`git commit -m "chore: bump version to ${newVersion}"`);
-            execSync('git push');
+            // Note: We don't update package.json on main anymore
+            // The version bump will only happen during the NPM publish step
+            console.log('Creating release without committing version bump to main');
 
             // Create release
             const changelog = commits.map(commit => `- ${commit}`).join('\n');
@@ -241,7 +242,7 @@ jobs:
       - name: 📥 Checkout code
         uses: actions/checkout@v4
         with:
-          ref: main # Get the updated version
+          ref: ${{ needs.release.outputs.tag }} # Check out the release tag
 
       - name: 🟢 Setup Node.js
         uses: actions/setup-node@v4
@@ -255,6 +256,11 @@ jobs:
 
       - name: 🔄 Generate component registry
         run: npm run generate:registry
+
+      - name: 📝 Update package.json version
+        run: |
+          echo "Updating package.json to version ${{ needs.release.outputs.version }}"
+          node -e "const fs=require('fs'); const pkg=JSON.parse(fs.readFileSync('package.json')); pkg.version='${{ needs.release.outputs.version }}'; fs.writeFileSync('package.json', JSON.stringify(pkg,null,2)+'\n');"
 
       - name: 🏗️ Build library
         run: npm run build:lib
