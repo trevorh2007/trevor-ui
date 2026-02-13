@@ -1,6 +1,7 @@
 import react from '@vitejs/plugin-react';
 import { resolve } from 'path';
 import { defineConfig } from 'vite';
+import dts from 'vite-plugin-dts';
 
 // https://vite.dev/config/
 export default defineConfig(({ mode }) => {
@@ -24,15 +25,28 @@ export default defineConfig(({ mode }) => {
   if (isLibraryMode) {
     return {
       ...baseConfig,
+      plugins: [
+        react(),
+        dts({
+          tsconfigPath: resolve(__dirname, './tsconfig.lib.json'),
+          outDir: resolve(__dirname, '../dist/lib'),
+          rollupTypes: true,
+        }),
+      ],
       build: {
+        outDir: resolve(__dirname, '../dist/lib'),
         lib: {
           entry: resolve(__dirname, '../src/lib/index.ts'),
-          name: 'ComponentLibrary',
-          fileName: format => `component-library.${format}.js`,
-          formats: ['es', 'umd'],
+          name: 'TrevorUI',
+          fileName: format => {
+            if (format === 'es') return 'index.es.js';
+            if (format === 'cjs') return 'index.js';
+            return `index.${format}.js`;
+          },
+          formats: ['es', 'cjs'],
         },
         rollupOptions: {
-          external: ['react', 'react-dom'],
+          external: ['react', 'react-dom', 'react/jsx-runtime'],
           output: {
             globals: {
               react: 'React',
@@ -42,6 +56,7 @@ export default defineConfig(({ mode }) => {
         },
         sourcemap: true,
         minify: 'esbuild',
+        emptyOutDir: true,
       },
       define: {
         'process.env.NODE_ENV': JSON.stringify('production'),
