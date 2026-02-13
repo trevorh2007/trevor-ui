@@ -266,8 +266,6 @@ jobs:
     steps:
       - name: 📥 Checkout code
         uses: actions/checkout@v4
-        with:
-          ref: ${{ needs.release.outputs.tag }} # Check out the release tag
 
       - name: 🟢 Setup Node.js
         uses: actions/setup-node@v4
@@ -302,6 +300,14 @@ jobs:
           echo ""
           echo "📁 Dist directory:"
           ls -la dist/ || echo "No dist directory found"
+
+      - name: 🧹 Clean .npmrc for OIDC authentication
+        run: |
+          echo "Removing .npmrc to enable OIDC authentication"
+          rm -f ~/.npmrc
+          echo "registry=https://registry.npmjs.org/" > ~/.npmrc
+          echo ".npmrc contents:"
+          cat ~/.npmrc
 
       - name: 📤 Publish to NPM
         run: npm publish --access public --provenance
