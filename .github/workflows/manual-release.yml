@@ -22,6 +22,7 @@ on:
 permissions:
   contents: write
   packages: write
+  id-token: write # Required for npm provenance
 
 env:
   NODE_VERSION: "20"
