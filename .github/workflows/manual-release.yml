@@ -305,9 +305,6 @@ jobs:
         run: |
           echo "Removing .npmrc to enable OIDC authentication"
           rm -f ~/.npmrc
-          echo "registry=https://registry.npmjs.org/" > ~/.npmrc
-          echo ".npmrc contents:"
-          cat ~/.npmrc
 
       - name: 📤 Publish to NPM
         run: npm publish --access public --provenance
