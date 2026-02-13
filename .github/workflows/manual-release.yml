@@ -22,6 +22,7 @@ on:
 permissions:
   contents: write
   packages: write
+  id-token: write  # Required for npm provenance
 
 env:
   NODE_VERSION: "20"
@@ -298,7 +299,7 @@ jobs:
           ls -la dist/ || echo "No dist directory found"
 
       - name: 📤 Publish to NPM
-        run: npm publish --access public
+        run: npm publish --access public --provenance
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
 
